@@ -3,9 +3,6 @@
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
 import { Home } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@workspace/ui/components/button";
@@ -13,8 +10,6 @@ import { Button } from "@workspace/ui/components/button";
 import { CustomCursor } from "../../components/scrapbook/CustomCursor";
 import { ScrapCard } from "../../components/scrapbook/ScrapCard";
 import { LiveSVG } from "../../components/scrapbook/LiveSVG";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.mjs`;
 
 export default function Variant4Page() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -102,10 +97,10 @@ export default function Variant4Page() {
                     </motion.div>
 
                     <motion.div style={{ y: ySlow }} className="absolute -bottom-32 left-0 rotate-[-8deg] opacity-70 blur-[2px] hidden md:block z-0 pointer-events-none">
-                        <ScrapCard pageNumber={5} width={400} />
+                        <ScrapCard width={400} height={300} />
                     </motion.div>
                     <motion.div style={{ y: yFast }} className="absolute -bottom-16 right-10 rotate-[12deg] z-30 hidden md:block">
-                        <ScrapCard pageNumber={1} width={350} />
+                        <ScrapCard width={350} height={250} />
                     </motion.div>
                 </section>
 
@@ -120,7 +115,7 @@ export default function Variant4Page() {
                     <div className="flex-1 relative h-[600px] w-full flex items-center justify-center">
                         {/* Pile of cards */}
                         <motion.div style={{ y: ySlow }} className="absolute top-0 right-0 z-10">
-                            <ScrapCard pageNumber={12} width={500} rotation={-4} delay={0.1} />
+                            <ScrapCard width={500} height={350} rotation={-4} delay={0.1} />
                             {/* Hand drawn arrow pointing at something on the card */}
                             <LiveSVG
                                 className="absolute -left-12 -top-12 w-32 h-32 scale-x-[-1]"
@@ -130,7 +125,7 @@ export default function Variant4Page() {
                             />
                         </motion.div>
                         <motion.div style={{ y: yFast }} className="absolute bottom-0 left-0 z-20">
-                            <ScrapCard pageNumber={16} width={450} rotation={6} delay={0.3} className="border-[8px] border-white/90" />
+                            <ScrapCard width={450} height={320} rotation={6} delay={0.3} className="border-[8px] border-white/90" />
                         </motion.div>
                     </div>
                 </section>
@@ -141,7 +136,7 @@ export default function Variant4Page() {
 
                     <div className="relative w-full aspect-video flex justify-center items-center">
                         <motion.div style={{ y: yFast }} className="z-30">
-                            <ScrapCard pageNumber={22} width={800} rotation={-2} className="shadow-2xl shadow-black/60 !bg-white border-t-[30px] border-t-white" />
+                            <ScrapCard width={800} height={500} rotation={-2} className="shadow-2xl shadow-black/60 !bg-white border-t-[30px] border-t-white" />
                             <LiveSVG
                                 className="absolute -right-8 bottom-12 w-24 h-24"
                                 viewBox="0 0 100 100"
@@ -151,7 +146,7 @@ export default function Variant4Page() {
                             <span className="absolute -right-24 bottom-2 text-[#C54B3E] font-bold rotate-12" style={{ fontFamily: 'cursive' }}>Check this!</span>
                         </motion.div>
                         <motion.div style={{ y: ySlow }} className="absolute -left-32 -top-24 z-10 opacity-50 blur-[3px]">
-                            <ScrapCard pageNumber={15} width={400} rotation={15} />
+                            <ScrapCard width={400} height={280} rotation={15} />
                         </motion.div>
                     </div>
                 </section>
