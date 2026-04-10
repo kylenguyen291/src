@@ -96,28 +96,37 @@ export const projects: Project[] = [
           body: "The architecture followed a deliberate four-step pipeline: Raw Ingestion, Profiling and Validation, Core Schema Structuring, and Data Normalization. It transformed messy CSV source files into a governed, sponsor-ready analytical platform.",
           scrapCards: [
             { 
-              width: 700, 
-              height: 450, 
-              rotation: 1, 
+              width: 300, 
+              height: 200, 
+              rotation: 6,
               content: (
-                <div className="w-full h-full flex flex-col items-center">
-                  <span className="text-sm font-semibold text-gray-500 mb-2 uppercase tracking-widest">Project Slides (33 Pages) &mdash; Scroll &rarr;</span>
-                  <div className="flex overflow-x-auto w-full h-full gap-4 snap-x pb-4 custom-scrollbar">
-                    {Array.from({ length: 33 }).map((_, i) => (
-                      <div key={i} className="min-w-full h-full snap-center shrink-0 rounded overflow-hidden shadow-sm border border-black/10 relative">
-                        {/* A transparent overlay allows scrolling over the iframe easily on mobile */}
-                        <div className="absolute inset-0 z-10"></div>
-                        <iframe 
-                          src={`/pdf/Project%201.pdf#page=${i + 1}&view=Fit&toolbar=0&navpanes=0&scrollbar=0`} 
-                          className="w-full h-full pointer-events-none bg-white" 
-                          title={`Slide ${i + 1}`} 
-                        />
-                      </div>
-                    ))}
-                  </div>
+                <div className="w-full h-full relative overflow-hidden bg-white">
+                  <div className="absolute inset-0 z-10" />
+                  <iframe 
+                    src="/pdf/Project%201.pdf#page=1&view=Fit&toolbar=0&navpanes=0&scrollbar=0" 
+                    className="w-full h-full absolute scale-110 pointer-events-none"
+                    style={{ top: '-5%', left: '-5%' }}
+                    title="Slide 1" 
+                  />
                 </div>
               )
-            }
+            },
+            { 
+              width: 320, 
+              height: 220, 
+              rotation: -3,
+              content: (
+                <div className="w-full h-full relative overflow-hidden bg-white">
+                  <div className="absolute inset-0 z-10" />
+                  <iframe 
+                    src="/pdf/Project%201.pdf#page=2&view=Fit&toolbar=0&navpanes=0&scrollbar=0" 
+                    className="w-full h-full absolute scale-110 pointer-events-none"
+                    style={{ top: '-5%', left: '-5%' }}
+                    title="Slide 2" 
+                  />
+                </div>
+              )
+            },
           ],
         },
         {

@@ -150,7 +150,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                     {chapter.scrapCards ? (
                                         chapter.scrapCards.map((card, i) => (
                                             <motion.div key={i} style={{ y: i % 2 === 0 ? ySlow : yFast }} className="absolute z-10">
-                                                <ScrapCard width={card.width} height={card.height} rotation={card.rotation} />
+                                                <ScrapCard width={card.width} height={card.height} rotation={card.rotation} content={card.content} />
                                             </motion.div>
                                         ))
                                     ) : (
