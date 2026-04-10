@@ -81,10 +81,10 @@ export default function Variant4Page() {
                         style={{ scale: heroScale, y: heroY, rotate: heroRotate }}
                         className="flex flex-col items-center relative z-20"
                     >
-                        <p className="font-mono text-[#A0B0C0] mb-6 tracking-widest uppercase text-sm">Case Study. 04</p>
+                        <p className="font-mono text-[#A0B0C0] mb-6 tracking-widest uppercase text-sm">Sports Analytics. DB Project</p>
                         <h1 className="text-6xl md:text-8xl text-center leading-[0.9] tracking-tight antialiased">
-                            The Presentation <br />
-                            <span className="italic opacity-80 pl-12 text-[#A0B0C0]">Re-imagined.</span>
+                            Football Sponsorship <br />
+                            <span className="italic opacity-80 pl-12 text-[#A0B0C0]">Analytics.</span>
                         </h1>
 
                         {/* Draw a red scribble under the title */}
@@ -107,9 +107,9 @@ export default function Variant4Page() {
                 {/* SECTION 2: The Core Problem */}
                 <section className="relative mt-[20vh] min-h-screen flex flex-col md:flex-row items-center justify-between gap-12 w-full max-w-7xl mx-auto">
                     <div className="flex-1 space-y-8 relative z-20">
-                        <h2 className="text-4xl md:text-5xl border-l-[3px] border-[#C54B3E] pl-6 font-medium">Architecture <br /> & Strategy</h2>
+                        <h2 className="text-4xl md:text-5xl border-l-[3px] border-[#C54B3E] pl-6 font-medium">Data <br /> & Analytics</h2>
                         <p className="text-[#A0B0C0] font-sans text-lg max-w-md leading-relaxed">
-                            We started by mapping out the raw tables and bridging the gaps between external CSVs and normalized JSON structures. Note the subtle mapping schemas scattered across the desk.
+                            Building a comprehensive database that tracks sponsorship ROI across leagues, clubs, and individual players. Transforming gut-feel decisions into data-driven strategic insights.
                         </p>
                     </div>
                     <div className="flex-1 relative h-[600px] w-full flex items-center justify-center">
@@ -132,11 +132,35 @@ export default function Variant4Page() {
 
                 {/* SECTION 3: Deep Dive */}
                 <section className="relative mt-[30vh] min-h-screen flex flex-col items-center justify-center w-full max-w-5xl mx-auto text-center">
-                    <h3 className="text-3xl font-mono text-[#A0B0C0] mb-20 italic">"The Devil is in the Queries"</h3>
+                    <h3 className="text-3xl font-mono text-[#A0B0C0] mb-20 italic">"From Gut Feel to Data-Driven ROI"</h3>
 
                     <div className="relative w-full aspect-video flex justify-center items-center">
                         <motion.div style={{ y: yFast }} className="z-30">
-                            <ScrapCard width={800} height={500} rotation={-2} className="shadow-2xl shadow-black/60 !bg-white border-t-[30px] border-t-white" />
+                            <ScrapCard 
+                                width={800} 
+                                height={500} 
+                                rotation={-2} 
+                                className="shadow-2xl shadow-black/60 !bg-white border-t-[30px] border-t-white"
+                                href="/var2"
+                                content={
+                                    <div className="space-y-4 text-gray-800">
+                                        <h2 className="text-3xl md:text-4xl font-bold border-l-[3px] border-[#C54B3E] pl-4 mb-6">
+                                            Football Sponsorship Analytics
+                                        </h2>
+                                        <div className="space-y-4 text-base md:text-lg leading-relaxed">
+                                            <p>
+                                                <span className="font-bold text-2xl text-[#C54B3E]">$8.7 billion</span> spent on football sponsorships every year — and most of it decided on gut feel.
+                                            </p>
+                                            <p className="font-bold text-lg">
+                                                What if a database could tell you exactly which league, which club, and which player gives your brand the highest return for the lowest risk?
+                                            </p>
+                                            <p>
+                                                That's precisely what this project builds.
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                            />
                             <LiveSVG
                                 className="absolute -right-8 bottom-12 w-24 h-24"
                                 viewBox="0 0 100 100"
@@ -152,7 +176,7 @@ export default function Variant4Page() {
                 </section>
 
                 <footer className="mt-[40vh] border-t border-[#A0B0C0]/20 pt-12 pb-24 text-center text-[#A0B0C0] font-mono text-xs uppercase tracking-widest relative z-20">
-                    <p>© {new Date().getFullYear()} The SQL Project. Crafted with Physics.</p>
+                    <p>© {new Date().getFullYear()} Football Sponsorship Analytics. Data-Driven Sports Marketing.</p>
                 </footer>
 
             </main>

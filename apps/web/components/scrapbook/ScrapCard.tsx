@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface ScrapCardProps {
     rotation?: number;
@@ -10,6 +11,8 @@ interface ScrapCardProps {
     className?: string;
     delay?: number;
     onClick?: () => void;
+    content?: React.ReactNode;
+    href?: string;
 }
 
 export function ScrapCard({ 
@@ -18,13 +21,20 @@ export function ScrapCard({
     height = 400, 
     className = "", 
     delay = 0,
-    onClick 
+    onClick,
+    content,
+    href
 }: ScrapCardProps) {
     const [isHovered, setIsHovered] = useState(false);
+    const router = useRouter();
 
     const handleClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        onClick?.();
+        if (href) {
+            router.push(href);
+        } else {
+            onClick?.();
+        }
     };
 
     return (
@@ -47,9 +57,13 @@ export function ScrapCard({
             {/* Tape effect on top */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-white/30 backdrop-blur-sm -rotate-2 mix-blend-overlay shadow-sm z-10" />
 
-            {/* Placeholder content area */}
-            <div className="flex items-center justify-center w-full h-full text-gray-400 text-lg font-medium">
-                Content Area
+            {/* Content area */}
+            <div className="flex flex-col justify-center w-full h-full p-4 text-left">
+                {content || (
+                    <div className="flex items-center justify-center w-full h-full text-gray-400 text-lg font-medium">
+                        Content Area
+                    </div>
+                )}
             </div>
 
             {/* Find out more button */}
