@@ -1,78 +1,77 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, Presentation, MousePointerClick } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { projects } from "../lib/projects";
+import { CustomCursor } from "../components/scrapbook/CustomCursor";
+import { ScrapCard } from "../components/scrapbook/ScrapCard";
 
-const variants = [
-  {
-    href: "/var1",
-    title: "Variant 1: Flipbook Gallery",
-    description: "A tactile, polished document viewer with a thumbnail strip and smooth 3D-like transitions.",
-    icon: BookOpen,
-  },
-  {
-    href: "/var2",
-    title: "Variant 2: Scrollytelling",
-    description: "A scroll-driven experience where presentation slides transition seamlessly in the background as you scroll.",
-    icon: MousePointerClick,
-  },
-  {
-    href: "/var3",
-    title: "Variant 3: Immersive Keynote",
-    description: "A cinematic, distraction-free presentation mode with smooth keyboard navigation and minimalist controls.",
-    icon: Presentation,
-  },
-  {
-    href: "/var4",
-    title: "Variant 4: Digital Scrapbook",
-    description: "An interactive, tactile 'developer desk' with physical paper physics, animated SVG annotations, and a custom cursor.",
-    icon: Presentation, // Will use another icon but reusing Presentation for now
-  },
-];
+export default function DeskHubPage() {
+    return (
+        <div className="relative min-h-[100vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-serif overflow-hidden cursor-none flex flex-col">
+            <CustomCursor />
 
-export default function Page() {
-  return (
-    <div className="min-h-svh bg-background flex flex-col items-center justify-center p-6 sm:p-12 font-sans selection:bg-primary/20">
-      <div className="w-full max-w-4xl space-y-12">
-        <header className="space-y-4 text-center">
-          <div className="inline-flex items-center rounded-full border border-border bg-muted/30 px-3 py-1 text-sm font-medium">
-            <span className="flex h-2 w-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
-            SQL Final Presentation Showcases
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
-            Visualizing the Presentation
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Three creative, interactive ways to experience a static PDF. Built with Next.js, Framer Motion, and react-pdf.
-          </p>
-        </header>
+            {/* Global Noise Grain Overlay */}
+            <div className="fixed inset-0 z-50 pointer-events-none opacity-[0.05] mix-blend-overlay"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
+            </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {variants.map((v) => (
-            <Link
-              key={v.href}
-              href={v.href}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-lg hover:-translate-y-1 hover:border-primary/50 flex flex-col h-full"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+            {/* Grid Pattern Background - faint */}
+            <div className="fixed inset-0 z-0 pointer-events-none opacity-20"
+                style={{ backgroundImage: `linear-gradient(#A0B0C0 1px, transparent 1px), linear-gradient(90deg, #A0B0C0 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
-              <div className="relative z-10 flex flex-col h-full space-y-4">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <v.icon className="w-6 h-6" />
-                </div>
+            {/* Red Sticky Border Alignments like the notebook string */}
+            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
+            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
 
-                <div className="space-y-2 flex-grow">
-                  <h2 className="text-xl font-semibold flex items-center justify-between">
-                    {v.title}
-                    <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors transform group-hover:translate-x-1" />
-                  </h2>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {v.description}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))}
+            {/* HERO SECTION */}
+            <header className="relative z-20 pt-24 pb-12 flex flex-col items-center justify-center text-center px-4">
+                <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[#F9F6F0] mb-4">
+                    The Desk
+                </h1>
+                <p className="text-lg text-[#A0B0C0] max-w-2xl mx-auto font-mono uppercase tracking-widest text-sm">
+                    Investigating Data to Answer Big Questions.
+                </p>
+            </header>
+
+            {/* THE DESK - Scatter Area */}
+            <main className="relative z-20 flex-1 w-full max-w-7xl mx-auto px-12 md:px-24 pb-32 flex flex-wrap items-center justify-center gap-12 min-h-[60vh]">
+                {projects.map((p, i) => (
+                    <div key={p.slug} className="relative transition-transform duration-500 hover:z-50" style={{ zIndex: 10 + i }}>
+                        <ScrapCard
+                            width={p.card.width}
+                            height={p.card.height}
+                            rotation={p.card.rotation}
+                            href={`/projects/${p.slug}`}
+                            className="bg-white group"
+                            delay={i * 0.15}
+                            content={
+                                <div className="flex flex-col h-full bg-white relative">
+                                    <div className="absolute left-0 top-0 bottom-0 w-2 scale-y-110" style={{ backgroundColor: p.card.accent }} />
+                                    <div className="pl-6 pt-4 pb-2 flex-1 flex flex-col">
+                                        <p className="font-mono text-xs uppercase tracking-widest text-[#A0B0C0] mb-2">{p.category} · {p.date}</p>
+                                        <h2 className="text-3xl font-bold text-gray-900 leading-tight mb-4 flex-1">
+                                            {p.title}
+                                        </h2>
+                                        <p className="text-gray-600 text-sm leading-relaxed mb-6 font-sans">
+                                            {p.subtitle}
+                                        </p>
+                                        <div className="flex flex-wrap gap-2 mb-4">
+                                            {p.tags.slice(0, 3).map(tag => (
+                                                <span key={tag} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded font-mono">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        />
+                    </div>
+                ))}
+            </main>
+
+            <footer className="relative z-20 border-t border-[#A0B0C0]/20 pt-8 pb-12 text-center text-[#A0B0C0] font-mono text-xs uppercase tracking-widest">
+                <p>© {new Date().getFullYear()} · Select a case file to begin</p>
+            </footer>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
