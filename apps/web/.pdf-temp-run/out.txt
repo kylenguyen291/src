@@ -1,0 +1,792 @@
+
+
+1
+A SPONSOR-ORIENTED RELATIONAL DATABASE SYSTEM 
+FOR DATA-DRIVEN `FOOTBALL INVESTMENT AND 
+REVENUE OPTIMIZATION
+26
+th
+ December, 2025
+Nguyen Duc Phi Long
+Sponsorship:
+
+Agenda
+SYSTEM ANALYSIS
+2
+DATABASE DESIGN 
+4
+1
+BACKGROUND 
+SQL ANALYSIS
+5
+CONCLUSION
+6
+DATA NORMALIZATION
+3
+
+A high-integrity database to transform 
+unreliable football database into a strategic asset for sponsorship investment
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+SITUATION
+COMPLICATION
+RESOLUTION
+Commercial Ecosystem of the 
+"Big Five" Leagues
+The Need for Deeper, Risk-Adjusted 
+Performance Metrics
+Relational Database for Sponsorship 
+Intelligence
+~8.7B USD>39%
+total sponsorship in the 
+top 5 European football 
+leagues annually
+total revenue was generated 
+via sponsorship 
+Major sponsors are under increasing pressure to: 
+•Move away from subjective reputation-based 
+investments 
+•Justify their rising costs with objective, data-driven 
+evidence.
+1
+Traditional "headline metrics“, such as league position 
+or social media following, are insufficient for 
+assessing modern sponsorship value
+2
+Overlook critical on-pitch dynamics that directly 
+impact brand visibility and risk, such as attacking 
+intensity, consistency, and player discipline
+Without advanced analytics, brands cannot distinguish 
+between a high-performing asset and a high-risk one, 
+leaving a gap between raw football statistics and the 
+commercial outcomes (like screen time and engagement) 
+that investors care about.
+The project resolves this gap by designing and 
+implementing:
+World Match Data
+Betting Market
+Advanced Metrics
+Relational 
+Databas e
+Management System
+THIS SYSTEM ENABLES:
+•Simulate investment screening via complex SQL queries. 
+•Normalizes data to ensure statistical fairness
+•Identify low-risk, high-impact player ambassadors
+•Transform raw data into actionable sponsorship insights.
+
+4
+3
+2
+1
+Current CSV-based Kaggle's raw data is fragmented, manual, 
+and unsuitable for sponsor-grade analytics,blocking sponsorship-relevant insights
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+A classic unscalable flat-file system rather than a true database:
+•Isolated table with no enforced relationships.
+•No guarantee of identifiers consistency across files.
+•Untyped text - no guarantee that data are valid or comparable.
+•Repeated business concepts instead of shared entities.
+Analytical pain points for brand insights:
+No explicit semantic 
+model
+No governance or 
+integrity guarantees
+Redundant & analytically 
+awkward structures
+No standardized analytical 
+layer 
+for brands
+football_raw ERD
+
+A purpose-built relational database converts raw DB into a governed, 
+scalable analytics platform for evidence-based sponsorship decisions
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Single source of 
+truth
+Guaranteed data 
+integrity
+Optimized for 
+sponsor-relevant 
+queries
+Scalable, repeatable 
+commercial analysis
+Investor
+Sponsorship 
+Analyst
+Brand Manager
+Translate Football reality into structured & trusted data
+Unlock commercial confidence in Sponsorship insights
+Encodes real-world structure of football
+Real hierarchy: League → Season → Game → Team → Player
+Enforces consistency and trust
+Relationships & constraints ensure every statistic is tied to a valid entity
+Supports sponsor-relevant analytical patterns
+Purpose-built to answer commercial questions
+Enables scalable, repeatable analysis
+Standardized metrics and reusable queries allow insights to be generated reliably
+
+1
+A structured 4-layer pipeline converts raw files into analytics-ready football database
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Raw data ingestion
+Profiling & validation
+Core schema structuringData normalization
+All CSVs are loaded in original form, 
+without modification
+Row-counts, key uniqueness, null 
+checks, referential feasibility
+DB normalization & design, data 
+migration, type conversion 
+Football-specific data normalization 
+for metrics setup 
+Preserves auditability, sponsors & 
+auditors can trace insights directly back 
+to original source
+Ensures the underlying data is 
+structurally safe before being trusted 
+for ROI-linked decisions
+Convert raw text into typed relational 
+tables, enforce PK-FK, separates 
+game/team/player grains, and 
+restructures betting odds for analytical 
+use
+Allows fair benchmarking of assets 
+across leagues and seasons so 
+sponsors could compare on equal 
+scales
+2
+3
+4
+
+Step 1: Raw CSVs are ingested into a staging database before transformation
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+leagues.csv
+teams.csv
+players.csv
+games.csv
+appearances.csv
+teamstats.csv
+shots.cvs
+football_raw
+Preserve data fidelity
+•The raw tables act as an immutable copy of the source files. 
+•No transformations, coercions, or inferred corrections are applied at this stage, allowing 
+the project to maintain a clear audit trail and to re-run transformations if necessary
+Isolate parsing errors
+•By separating ingestion from transformation, any parsing or type-conversion issues can 
+be detected and handled explicitly rather than silently failing during load.
+Support reproducibility
+•Analysts can always refer back to football_raw to verify that downstream anomalies (e.g., 
+unexpected NULLs) arise from real gaps in the source rather than transformation 
+artefacts.
+Why the staging layer matters:
+
+1
+Step 2: Profile & Validate the raw layer before designing & normalizing core DB
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Row-count reconciliation
+TableRows
+leagues_raw5
+players_raw7,659
+teams_raw146
+games_raw12,680
+appearances_raw356,513
+teamstats_raw25,360
+shots_raw324,543
+Primary-key uniqueness confirmed
+Distinct IDs
+5
+7,659
+146
+12,680
+356,513
+25,360
+324,543
+=
+For number of rows per table, all matches the original 
+CSVs
+2
+All tables having rows = distinct IDs, proving IDs are clean 
+and usable as primary keys
+No orphan facts in raw joinsNo blank critical identifiers
+•0 appearances without a valid player or game.
+•0 team stats without a valid team or game.
+•0 shots without a valid game or shooter.
+•0 blank/NULL playerID, teamID, gameID, shooterID, or assisterID in the fact tables 
+checked.
+Validation confirms the raw data is complete, coherent, and reliable → providing a safe foundation for building a sponsorship-grade analytical 
+database.
+
+1
+2
+Step 3: Transform the raw data into a normalized analytical schema (football_core)
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+football_core ERD
+Turning disconnected CSVs into a governed data model:
+Convert raw text into typed, governed tables
+Raw text fields from raw DB were cast into proper SQL data types
+Standardize categorical fields for clean segmentation
+Match location (home/away) and results (win/draw/loss)
+Enforce referential integrity through relational design
+PK & FK constraints were implemented across all core tables
+Normalizing core schema structure:
+Create lookup dimensions for repeated fields
+•Positions, shot situations, last actions, shot types, shot results, bookmakers data 
+are stored once, referenced via surrogate IDs
+•Restructure bookmaker odds from wide CSV columns (B365H, B365A, etc.) into a 
+vertical table: one row per bookmaker per game
+Lighter, consistent, and optimized core DB with 14 entities
+
+Step 4: Normalize football stats into fair, comparable sponsor-ready metrics
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Teams play different numbers of matches
+Raw totals inflate exposure for clubs simply by playing more games
+Players accumulate unequal minutes due to rotation
+Goals and assists totals mainly reflect time on pitch, not impact
+Shifts analysis toward true commercial value - screen time per unit of opportunity - rather than cumulative volume, 
+giving brands a fair way to compare assets before investing. 
+Normalizing metrics per match (teams) and per 90 minutes (players)
+
+As results, we have following core entities: 
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Overall, the database ...
+Has 14 tables of scalable and robust schema to support:
+Descriptive Analytics
+enabling reliable aggregation of goals, xG, shots, and 
+participation metrics across players, teams, and leagues.
+Tactical and performance analysis
+allowing detailed examination of playing styles, chance creation 
+patterns, and player roles through event- and match-level data.
+Cross-analytical through leagues and seasons
+supporting analysis of match outcomes and performance 
+trends for business decisions.
+1
+Ensures sufficient data volume:
+2
+Statistical Power
+2 core tables including Appearances and Shots, contains more 
+than 200 observations on level of player and event analyses.
+
+As results, we keep following core entities:
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Leagues, Teams, Players, Shots, Appearances, Games and TeamStats, now hard-linked through keys
+ensuring every KPI is built on verified data, a prerequisite for credible, repeatable sponsorship analytics.
+
+While we normalized the schema with following new look up tables
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Positions is now a governed dictionary of player roles, ensuring every appearance uses a single coded value,
+ enabling clean joins and role-based commercial analysis.
+
+While we normalized the schema with following new look up tables
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Shot events are decomposed into four lookup entities: ShotSituations, ShotLastActions, ShotTypes, ShotResults,
+each mapped via IDs inside the Shots fact table, transforming messy text fields into analyzable commercial data
+...
+
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Every bookmaker & its odds appeared as its own set of wide columns (B365H, B365D, B365A, WHH, WHD, WHA, etc.), duplicating 
+structure across 75,000+ rows and making odds analysis nearly impossible.
+The relational model restructures all odds into a vertical fact table (BettingOdds) keyed by (gameID, bookmakerID), supported by 
+a Bookmakers lookup table.
+While we normalized the schema with following new look up tables
+
+The Five Pillars of Football Sponsorship Analytics
+Comparative action intensity across Europe’s top leagues, measuring expected sponsor logo exposure per match through goals, shots, and xG.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Narrative Impact: Leveraging seasonal 
+predictability trends to align with high-
+resonance fan moments.
+Audience Exposure:Quantifying reach 
+via attacking actions (shots, goals) as 
+proxies for screen time.
+Reliability:Assessing year-to-year and 
+venue-to-venue consistency for 
+predictable ROI.
+Risk Management:Correlating impact 
+with disciplinary risk and playing-time 
+volatility.
+Value Identification:Using xG and xA to 
+detect "Hidden Stars" before market 
+valuation peaks.
+The Five Pillars
+1
+2
+3
+4
+5
+F
+
+Question 1: On-pitch action exposure & Brand Visibility efficiency
+Comparative action intensity across Europe’s top leagues, measuring expected sponsor logo exposure per match through goals, shots, and xG.
+Action intensity,
+declines steadily from the Bundesliga to Ligue 1
+Business Question: How do leagues rank by on-pitch action exposure per match?
+Commercial Rationale: Identifying leagues where each match naturally generates more high-attention attacking moments, maximizing repeated logo exposure per game across 
+broadcasts, highlights, and digital clips regardless of audience scale.
+Prioritize high-action leagues for visibility efficiency: Determine which league’s sponsored match delivers more frequent attacking moments and repeated 
+logo exposure, making them ideal for sponsors seeking maximum visibility per game.
+Balance exposure efficiency with scale in portfolio planning: While the Premier League offers slightly lower action intensity, its strong position complement 
+high-action leagues to combine efficient per-match exposure with global reach and commercial depth.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+7
+7.2
+7.4
+7.6
+7.8
+8
+8.2
+8.4
+8.6
+Action Index across Leagues
+
+Question 2: Match outcome predictability across Leagues
+Predictability Index shows whether matches tend to follow expectations or produce frequent upsets that shape fan engagement.
+All leagues show,
+similar predictability levels with only small differences between them.
+Business Question: How do leagues rank by match outcome predictability?
+Commercial Rationale: Decide whether to anchor campaigns in leagues with reliable, expectation-confirming narratives or leverage more volatile leagues where surprise results 
+create emotionally charged moments and viral storytelling opportunities.
+Use high-predictability leagues for narrative stability: The Premier League and La Liga rank highest in predictability, making them well-suited for long-term 
+brand storytelling, consistent messaging, and expectation-aligned sponsorship campaigns.
+Leverage low-predictability leagues for emotional impact: Ligue 1 and Serie A show lower predictability, offering greater upset potential that brands can 
+exploit for high-emotion, viral moments and short-burst, attention-driven activations.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+0.595
+0.6
+0.605
+0.61
+0.615
+0.62
+0.625
+0.63
+Predictability Index across Leagues
+
+Question 3: Top 5 teams ranked by attacking volume within each league
+Attacking volume predicts how often a club appears in goals, chances, and highlight packages, maximiz ing sponsor logo exposure across digital replays & broadcasts
+Across all leagues, 
+a small group of top teams consistently dominate the Attack Index, highlighting the highly concentrated
+Business Question: Who are the top 5 teams ranked by attacking volume within each league?.
+Commercial Rationale: Identifying clubs most likely to feature in broadcast highlights and post-match media due to their consistently high volume of attacking actions, making them 
+prime candidates for high-visibility sponsorship placements.
+Dynamic Strategy: Activate sponsorships around high-attack teams during marquee fixtures to capitalize on intense, highlight-rich matches that drive 
+immediate attention.
+Brand Alignment: Pair brands seeking excitement and aggression with high Attack Index teams, while positioning more heritage or control-oriented brands 
+alongside mid-ranked teams for steadier, less volatile exposure.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+0
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+4
+4.5
+Bayern Munich
+Borussia Dortmund
+RasenBallsport Leipzig
+Bayer Leverkusen
+Hoffenheim
+Barcelona
+Real Madrid
+Sevilla
+Atletico Madrid
+Villarreal
+Paris Saint Germain
+Lyon
+Monaco
+Marseille
+Lille
+Manchester City
+Liverpool
+Chelsea
+Arsenal
+Tottenham
+Napoli
+Roma
+Juventus
+Inter
+Atalanta
+BundesligaLa LigaLigue 1Premier LeagueSerie A
+Attack Index by League and Team
+
+Question 4: Top 5 players ranked by on-pitch involvement per 90 minutes
+Captures continuous on-ball involvement that directly drives broadcast visibility and repeated brand exposure beyond isolated scoring moments.
+Most commercially valuable players,
+are not always the top scorers, but creative midfielders and playmakers who consistently drive possession and attacking sequences.
+Business Question: Who are the top 5 players ranked by on-pitch involvement per 90 minutes?.
+Commercial Rationale: Identify players who maximize continuous on-camera presence and brand exposure by staying deeply involved in attacking play, rather than merely scoring 
+goals.
+Activation strategy: Design in-match activations (replays, lower-third graphics, social cut-ins) around high-involvement players, as they appear repeatedly in 
+buildup and chance-creation phases rather than only at scoring moments.
+Risk-hedging strategy: Prioritize players with high involvement per 90 and sustained minutes played to reduce exposure volatility from injuries, substitutions, 
+or form drops while maintaining consistent broadcast presence.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+0
+1
+2
+3
+4
+5
+6
+7
+James Rodríguez
+Christopher Nkunku
+Kevin De Bruyne
+Jadon Sancho
+Franck Ribéry
+James Rodríguez
+Lionel Messi
+Xavi
+Neymar
+Isco
+Neymar
+Ángel Di María
+Dimitri Payet
+Abdel Barrada
+Mathieu Valbuena
+Kevin De Bruyne
+Dimitri Payet
+Mesut Özil
+David Silva
+Cesc Fàbregas
+Ruslan Malinovskyi
+Alexis Sánchez
+Éver Banega
+Douglas Costa
+Francesco Totti
+BundesligaLa LigaLigue 1Premier LeagueSerie A
+Top 5 Average involvement per 90 mins.
+
+Question 5: Distribution of Attacking Exposure Across Teams
+BundesligaLa LigaLigue 1Premier LeagueSerie A
+attach_exposure_idex
+1.5
+2
+2.5
+3
+3.5
+4
+4.5
+Box Plot of Attach Exposure Index
+Attacking visibility is moderately concentrated, allowing brands to choose between high-tier exclusivity with "Elite Outliers" or risk-diversified mid-tier portfolios
+Most clubs sit in a core cluster,
+with a smaller group extending into a high-intensity tail.
+Elite outliers (e.g., Bayern Munich, PSG) 
+provide visibility far exceeding the league median.
+Business Question: How is attacking visibility distributed across clubs within and across the Top-5 European leagues?.
+Commercial Rationale: Identifying whether fan attention is concentrated on a small elite or evenly spread dictates whether brands should pursue exclusive single-club deals or multi-
+team reach campaigns.
+Premium Strategy: Seek exclusive deals with high-exposure elite clubs to maximize broadcast screen time and perceived dominance.
+Portfolio Strategy: Bundle several mid-tier clubs to approximate the aggregate reach of an elite club while diversifying performance and market risk.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+
+Question 6: Leagues rank by stability
+It reveals whether sponsorship exposure can be reliably forecast over multiple seasons or is subject to large, unpredictable swings that increase investment risk.
+Premier League shows the highest multi-season stability in attacking output, 
+Serie A and the Bundesliga exhibit much greater year-to-year volatility.
+Business Question: How do leagues rank by year-to-year stability?.
+Commercial Rationale: Decide whether to commit to long-term sponsorships in stable leagues with predictable exposure or adopt flexible, short-term deals in more volatile leagues 
+where returns fluctuate year to year.
+Premium strategy: Commit to long-term, multi-year sponsorships in highly stable leagues like the Premier League to confidently project consistent exposure 
+and ROI over time.
+Flexible strategy: In more volatile leagues such as Serie A and the Bundesliga, favor shorter-term or annually adjustable deals to manage exposure risk and 
+adapt to shifting league dynamics. 
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0.4
+0.45
+0.5
+Stability Index across Leagues
+
+Question 7: Stability of Team Attacking Exposure Over Time
+Long-term sponsorship ROI depends on the durability of a club's attacking identity rather than short-term performance spikes.
+Significant year-to-year volatility across all five leagues, 
+Bundesliga and Serie A display higher attack exposure levels over time.
+Business Question:Is a club's attacking visibility a durable attribute or a product of short-term spikes? 
+Commercial Rationale: Brands planning multi-season partnerships need confidence that a club’s exposure will not collapse after one strong year. Identifying repeatable attacking 
+presence helps isolate dependable long-term assets. 
+Asset Selection: Target clubs with repeatable, season-to-season attacking presence to secure dependable long-term brand exposure. 
+Risk Management: Use shorter, performance-linked, or flexible sponsorship structures for highly volatile teams. 
+Contractual Structuring: Stable assets justify multi-year commitments, whereas volatile assets require protective clauses against exposure swings. 
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+2.3
+2.4
+2.5
+2.6
+2.7
+2.8
+2.9
+3
+2014201520162017201820192020
+Avg. 
+attack_exposure_index
+Season
+
+Question 8: Home vs. Away Attacking Output Across Teams
+Teams with venue-independent attacking identities offer more consistent on-screen exposure and higher sponsorship reliability.
+Clear home advantage exists across all leagues, 
+but the strong positive correlation indicates that elite attacking identities generally remain active regardless of venue.
+Business Question: How does attacking visibility differ between a team's home and away fixtures?
+Commercial Rationale: Identifying the home-away split determines whether a brand should prioritize stadium-centric assets (if home-driven) or broad
+Prioritize "Travelers": Invest in teams with venue-independent attacking output to ensure brand logos appear consistently in both home and away broadcast feeds.
+Asset Tailoring: Utilize stadium-centric assets (LED boards, local activations) for teams with heavy home-bias exposure.
+Broadcast Focus: Target teams with high away exposure to maximize global reach and impressions through neutral and away-market broadcasts.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+1
+1.5
+2
+2.5
+3
+3.5
+4
+1.522.533.544.55
+away_attack_exposure
+home_attack_exposure
+
+Question 9: Distribution of Player Involvement within Leagues
+A right-skewed distribution of player involvement reveals a small elite of "High-Impact Creators" who offer premium, concentrated brand exposure.
+The right-skewed distribution 
+highlights that high-impact creators like James Rodriguez, Neymar, and Kevin De Bruyne are rare, premium brand assets.
+Business Question:How evenly is on-pitch involvement shared across players within leagues?
+Commercial Rationale: Identifying whether a league has a broad pool of high-visibility individuals or a small dominant elite dictates ambassador strategy. Concentrated involvement 
+drives scarcity and higher fees for a selective few, while broad distribution supports lower-cost influencer portfolios.
+Premium Focus: Prioritize "Long Tail" stars to maximize screen-time-per-minute.
+Data-First Selection: Use per-90 metrics to bypass reputational bias and identify high-frequency broadcast actors.
+Portfolio Scaling: Bundle mid-tier creators in broad-distribution leagues for equivalent reach at a lower cost-per-impression.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+Involvement per 90 minutes
+[0, 0.5](0.5, 1](1, 1.5](1.5, 2](2, 2.5](2.5, 3](3, 3.5](3.5, 4](4, 4.5](4.5, 5](5, 5.5](5.5, 6]
+Players
+0
+200
+400
+600
+800
+1000
+1200
+Distribution of Player Attacking Involvement per 90 Minutes
+
+Question 10: Player Involvement vs. Disciplinary Risk
+Optimal sponsorship assets—"Safe Stars"—combine high on-pitch involvement with controlled discipline to minimize reputational and availability risk.
+Only a specialized subset of high-impact players 
+maintains the controlled discipline required for stable, long-term brand ambassadorship.
+•Business Question: How does disciplinary risk correlate with player involvement? 
+•Commercial Rationale: Identifying behavioral risk alongside performance metrics safeguards campaign continuity and brand sentiment.
+•Prioritize "Safe Stars": Focus investment on elite assets like James Rodríguez and Kevin De Bruyne who combine high impact with controlled discipline.
+•Risk-Adjust Valuation: Apply a commercial discount to "High-Risk Stars" like Neymar to account for suspension-driven inactivity.
+•Safeguard Integrity: Proactively screen for behavioral risk to protect campaign continuity and brand reputation.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+0123456
+card_risk_per90
+Player Involvement vs Disciplinary Risk Quadrant 
+Safe StarRisky Low-ImpactLow Risk / Low ImpactHigh-Risk Star
+
+Question 11: Player Exposure Reliability vs. Playing Time
+Analytical impact must be paired with playing time reliability to avoid the "Sponsorship Trap" of high-talent, low-visibility assets. 
+A significant cluster of elite creators shows high per-90 involvement 
+but low average minutes, indicating high "Cameo Risk" that undermines sponsorship ROI.
+Business Question: How often do high-involvement players fail to reach meaningful screen time? 
+Commercial Rationale: Identifying exposure volatility helps brands avoid over-indexing on players whose statistical quality does not translate into consistent camera time. 
+•Prioritize Stability: Invest in high-involvement stars with high average minutes per match to ensure consistent logo visibility.
+•Discount "Cameo" Assets: Lower valuations for rotation players with strong per-90 metrics but unreliable screen presence.
+•Validate Playing Time: Use average-minutes-per-match data to distinguish between dependable starters and high-impact bench options.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+20
+30
+40
+50
+60
+70
+80
+90
+1.522.533.544.555.56
+avg_minutes_per_app
+earance
+player_exposure_stability 
+Stable exposureHigh cameo riskModerate cameo risk
+
+Question 12: Team Expected vs. Realized Outcomes
+Identifying the gap between expected goal and actual goals uncovers undervalued "hidden stars" and unsustainable "hype" risks.
+Most leagues cluster around a 1.0 ratio, 
+but a long tail of under-estimated reveals untapped value.
+Business Question: How does expected attacking output compare to realized outcomes across teams? 
+Commercial Rationale: xG represents forward-looking quality; teams under-performing their xG are "hidden" value opportunities, while over-performers face regression risk. 
+•Target "Hidden Stars": Invest in xG under-performers for high-upside partnerships before market prices rise.
+•Validate Premiums: Only pay top-tier fees for teams that consistently convert attacking volume into realized goals.
+•Manage Regression: Exercise caution with teams scoring far above expectation, as unsustainable results may lead to future exposure declines.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+6.5
+8.5
+10.5
+12.5
+14.5
+16.5
+18.5
+0.511.522.53
+Shots per match
+Goals per match
+BundesligaLa LigaLigue 1Serie APremier League
+Bundesliga
+La Liga
+Ligue 1
+Premier ...
+Serie A
+goals_to_xg_ratio
+0.7
+0.8
+0.9
+1
+1.1
+1.2
+1.3
+Higher shot volume generally 
+translates to more goals, reflecting sustained pressure.
+
+goal
+-
+to
+-
+xGoal
+ratio 
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+Question 13: Player Expected vs. Realized Outcomes
+Identifying the gap between underlying attacking quality and actual goals uncovers undervalued assets and unsustainable "hype" risks. 
+Over-performance is rare and tightly clustered, 
+while a "long tail" of under-estimated suggests significant untapped value .
+Business Question: How does expected attacking output compare to realized outcomes across players? 
+Commercial Rationale: xG represents forward-looking quality; players under-performing their xG are "hidden" value opportunities, while over-performers face regression risk. 
+•Target "Hidden Stars": Contract players with high goal_to_xG ratio to capture value before their market perception catches up to their quality.
+•Devalue Over-performance: Exercise caution with "hype assets" scoring significantly above xG, as their commercial exposure may be short-lived.
+•Invest in Untapped Value: Utilize the "long tail" of under-performance to build a high-potential ambassador portfolio at a fraction of the cost of established elites.
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+0
+1
+2
+3
+4
+5
+6
+7
+00.20.40.60.811.21.4
+shots_per_match
+goals_per_match
+BundesligaLa LigaLigue 1Premier LeagueSerie A
+Strong xG correlation confirms talent quality, 
+but dispersion reveals "Hidden Stars"
+
+Question 14: Competitive Volatility by League
+Align sponsorship strategy to volatility: emotional leagues drive engagement, stable leagues deliver dependable reach.
+Frequency of underdogs beating the market expectations,
+Ligue 1 and Premier league leads the ranking in terms of “magic” match outcomes
+Business Question: How do leagues differ in the frequency with which underdogs beat betting market expectations?
+Commercial Rationale: Upset frequency determines emotional tone: high-volatility leagues fuel shock-win storytelling, while stable leagues support consistent, long-term brand 
+messaging. Knowing this lets sponsors time spend strategically, chase emotion or bank on predictability.
+Asset Selection: Target clubs with repeatable, season-to-season attacking presence to secure dependable long-term brand exposure. 
+Risk Management: Use shorter, performance-linked, or flexible sponsorship structures for highly volatile teams. 
+Contractual Structuring: Stable assets justify multi-year commitments, whereas volatile assets require protective clauses against exposure swings. 
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+10%
+11%
+11%
+12%
+12%
+13%
+13%
+14%
+14%
+15%
+15%
+
+Question 15: Seasonal Trends in Match Predictability
+Maximize ROI by aligning campaign timing with seasonal predictability: riding early-season "chaos" for engagement and late-season "certainty" for reach.
+Predictability tends to rise as the season progresses across all leagues, 
+reflecting decreased squad uncertainty and the emergence of dominant title contenders .
+Business Question: How does league predictability change over a season?
+Commercial Rationale: Uncertainty levels dictate the emotional tone of a match, timing marketing spend allows brands to capture volatility-driven engagement early or peak 
+audience attention during stable title races.
+Early-Phase Activation: Launch emotion-driven "upset" storytelling early to capture the high engagement driven by early-season unpredictability .
+Late-Phase Premium: Concentrate investment on title run-ins when results are more "as expected" and audience attention is at its maximum.
+Strategic Budgeting: Optimize ROI by utilizing early volatility for social media virality and late-season stability for guaranteed broadcast reach .
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+56.0%
+57.0%
+58.0%
+59.0%
+60.0%
+61.0%
+62.0%
+63.0%
+64.0%
+65.0%
+12345
+prediction_accuracy
+season_phase
+
+1
+Conclusion: From Raw Matches to Sponsor-Ready Intelligence
+BackgroundSystem AnalysisData NormalizationDatabase DesignSQL AnalysisConclusion
+What we have built
+2
+Why it matters analytically
+3
+What it enables for brands
+•A two-layer relational DBMS 
+(raw → normalized core)
+•Governed schema with keys, constraints, 
+lookup tables
+•Sponsor-oriented SQL layer answering 15 
+commercial questions
+•Normalized per-90 / per-match metrics make 
+entities comparable
+•Volatility, predictability & involvement 
+metrics quantify exposure + risk
+•Enables repeatable, auditable, statistically 
+fair comparisons
+•Choose where to invest (league action + 
+volatility maps)
+•Pick who to back (Safe Stars, hidden-value 
+players)
+•Decide how to structure deals (multi-year 
+vs flexible, risk-protected)
+The system turns performance data into a sponsor-oriented decision engine: brands can now choose leagues, clubs and 
+ambassadors based on transparent, normalised metrics - designing portfolios, campaign timing and contracts with evidence 
+rather than intuition, and laying the groundwork for future predictive and real-time sponsorship analytics.
+
+THANK 
+YOU!
+Whether you're a brand manager maximizing screen 
+time, an investor scouting the next big star, or just a 
+hopeless optimist who keeps betting on Manchester 
+United and Arsenal for Premier League Champion, our 
+Analytics Platform is your strategic partner for turning 
+blind faith into calculated, data-driven success.
+Shout out to

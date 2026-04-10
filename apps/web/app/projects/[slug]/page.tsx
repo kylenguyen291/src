@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, use } from "react";
 import Lenis from "lenis";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Home, ExternalLink, FileText } from "lucide-react";
@@ -10,8 +10,9 @@ import { CustomCursor } from "../../../components/scrapbook/CustomCursor";
 import { ScrapCard } from "../../../components/scrapbook/ScrapCard";
 import { LiveSVG } from "../../../components/scrapbook/LiveSVG";
 
-export default function ProjectPage({ params }: { params: { slug: string } }) {
-    const project = projects.find(p => p.slug === params.slug);
+export default function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = use(params);
+    const project = projects.find(p => p.slug === slug);
     
     // lenis initialization inside component avoids errors on server
     const containerRef = useRef<HTMLDivElement>(null);
