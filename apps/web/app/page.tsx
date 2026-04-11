@@ -10,6 +10,65 @@ import { motion, AnimatePresence, useSpring } from "framer-motion";
 
 const CODE_LINE = `SELECT * FROM case_files WHERE curiosity > 0 ORDER BY impact DESC;`;
 
+function CharacterOnBar({ cycle, visible }: { cycle: number; visible: boolean }) {
+    const [pos, setPos] = useState(5);
+    const [dir, setDir] = useState(1);
+    const dirRef = useRef(1);
+    const posRef = useRef(5);
+
+    useEffect(() => {
+        setPos(5); dirRef.current = 1; posRef.current = 5;
+        const interval = setInterval(() => {
+            posRef.current += dirRef.current * 0.45;
+            if (posRef.current > 93) dirRef.current = -1;
+            if (posRef.current < 3) dirRef.current = 1;
+            setPos(posRef.current);
+            setDir(dirRef.current);
+        }, 40);
+        return () => clearInterval(interval);
+    }, [cycle]);
+
+    return (
+        <AnimatePresence>
+        {visible && (
+        <motion.div
+            key={`mag-${cycle}`}
+            initial={{ opacity: 0, x: "60%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "-110%" }}
+            transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+            className="absolute z-20 pointer-events-none"
+            style={{
+                left: `${pos}%`,
+                bottom: "2px",
+                transform: "translateX(-50%)",
+            }}
+        >
+            <svg width="32" height="36" viewBox="0 0 32 36" fill="none">
+                {/* Lens outer ring */}
+                <circle cx="13" cy="13" r="11" stroke="#C54B3E" strokeWidth="2.5" fill="none" />
+                {/* Lens inner — glass with tint */}
+                <circle cx="13" cy="13" r="8.5" fill="rgba(160,196,160,0.12)" />
+                {/* Glass shine */}
+                <circle cx="10" cy="10" r="2.5" fill="rgba(255,255,255,0.15)" />
+                <circle cx="9" cy="9" r="1" fill="rgba(255,255,255,0.25)" />
+                {/* Handle */}
+                <line x1="21.5" y1="21.5" x2="30" y2="34" stroke="#8B1A0E" strokeWidth="3" strokeLinecap="round" />
+                <line x1="21.5" y1="21.5" x2="30" y2="34" stroke="#C54B3E" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
+            </svg>
+            {/* Glow under lens */}
+            <motion.div
+                animate={{ opacity: [0.3, 0.7, 0.3], scale: [0.9, 1.1, 0.9] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-1 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(197,75,62,0.35) 0%, transparent 70%)" }}
+            />
+        </motion.div>
+        )}
+        </AnimatePresence>
+    );
+}
+
 function TypewriterCode() {
     const [displayed, setDisplayed] = useState("");
     const [done, setDone] = useState(false);
@@ -39,7 +98,10 @@ function TypewriterCode() {
     }, [cycle]);
 
     return (
-        <div className="w-full max-w-2xl overflow-hidden h-10">
+        <div className="w-full max-w-2xl h-14 relative" style={{ overflow: "visible" }}>
+            {/* Walking character on top of the bar */}
+                <CharacterOnBar cycle={cycle} visible={visible} />
+
             <AnimatePresence mode="wait">
                 {visible && (
                     <motion.div
@@ -48,6 +110,7 @@ function TypewriterCode() {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: "-110%", opacity: 0 }}
                         transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+                        className="absolute bottom-0 left-0 right-0"
                     >
                         <div className="flex items-center gap-2 bg-[#0e0e0e]/80 border border-[#C54B3E]/20 rounded-sm px-4 py-2.5 font-mono text-xs">
                             <span className="text-[#C54B3E]/60 select-none shrink-0">{">"}</span>
@@ -174,68 +237,152 @@ export default function DeskHubPage() {
                         {/* Center content */}
                         <motion.div
                             key="curtain-content"
-                            className="fixed inset-0 z-[1000] flex flex-col items-center justify-center pointer-events-none"
+                            className="fixed inset-0 z-[1000] flex items-center justify-between px-16 pointer-events-none"
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <motion.p
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3, duration: 0.6 }}
-                                className="font-mono text-[11px] uppercase tracking-[0.4em] text-[#F9F6F0]/60 mb-6"
-                            >
-                                Portfolio · Nguyen Duc Phi Long
-                            </motion.p>
-
-                            <motion.h1
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5, duration: 0.7 }}
-                                className="text-7xl md:text-9xl font-black text-[#F9F6F0] tracking-tight leading-none mb-6"
-                                style={{ textShadow: "0 4px 40px rgba(0,0,0,0.4)" }}
-                            >
-                                The Desk.
-                            </motion.h1>
-
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.9, duration: 0.6 }}
-                                className="text-[#F9F6F0]/70 font-sans text-sm tracking-wide max-w-sm text-center mb-10"
-                            >
-                                Data investigations. Questions worth asking.
-                            </motion.p>
-
+                            {/* LEFT decorative panel */}
                             <motion.div
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 1.3, duration: 0.5 }}
-                                className="pointer-events-auto flex flex-col items-center gap-3"
+                                initial={{ opacity: 0, x: -30 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.6, duration: 0.7 }}
+                                className="hidden lg:flex flex-col gap-4 w-52"
                             >
-                                <motion.button
-                                    onClick={() => setCurtainOpen(true)}
-                                    animate={{ boxShadow: ["0 0 0px rgba(249,246,240,0)", "0 0 24px rgba(249,246,240,0.15)", "0 0 0px rgba(249,246,240,0)"] }}
-                                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                                    className="group relative px-10 py-4 border border-[#F9F6F0]/50 text-[#F9F6F0] font-mono text-xs uppercase tracking-[0.3em] hover:bg-[#F9F6F0]/10 transition-all duration-300 overflow-hidden"
-                                >
-                                    <motion.span
-                                        className="absolute inset-0 bg-[#F9F6F0]/5"
-                                        animate={{ x: ["-100%", "100%"] }}
-                                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-                                        style={{ skewX: "-20deg" }}
-                                    />
-                                    <span className="relative flex items-center gap-3">
-                                        Click anywhere to enter
-                                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
-                                    </span>
-                                </motion.button>
+                                <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#F9F6F0]/40 mb-1">Case Files</p>
+                                {[
+                                    { num: "01", label: "Football Sponsorship", tag: "Sports Analytics" },
+                                    { num: "02", label: "Loan Default Engine", tag: "ML · Banking" },
+                                    { num: "03", label: "More to come...", tag: "In Progress" },
+                                ].map((item, i) => (
+                                    <motion.div
+                                        key={item.num}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.8 + i * 0.15, duration: 0.5 }}
+                                        className="flex items-start gap-3 border-l border-[#F9F6F0]/20 pl-3"
+                                    >
+                                        <span className="font-mono text-[10px] text-[#F9F6F0]/30 mt-0.5">{item.num}</span>
+                                        <div>
+                                            <p className="font-serif text-sm text-[#F9F6F0]/80 font-semibold leading-tight">{item.label}</p>
+                                            <p className="font-mono text-[9px] text-[#F9F6F0]/40 mt-0.5">{item.tag}</p>
+                                        </div>
+                                    </motion.div>
+                                ))}
+
+                                {/* Animated bars */}
+                                <motion.div className="mt-4 flex flex-col gap-1.5">
+                                    {[70, 55, 40, 85, 30].map((w, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className="h-[3px] rounded-full bg-[#F9F6F0]/20"
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${w}%` }}
+                                            transition={{ delay: 1.2 + i * 0.1, duration: 0.6, ease: "easeOut" }}
+                                        />
+                                    ))}
+                                </motion.div>
+                            </motion.div>
+
+                            {/* CENTER content */}
+                            <div className="flex flex-col items-center text-center flex-1">
                                 <motion.p
-                                    animate={{ opacity: [0.3, 0.7, 0.3] }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                    className="font-mono text-[10px] text-[#F9F6F0]/30 uppercase tracking-widest"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3, duration: 0.6 }}
+                                    className="font-mono text-[11px] uppercase tracking-[0.4em] text-[#F9F6F0]/60 mb-6"
                                 >
-                                    or click the curtain
+                                    Portfolio · Nguyen Duc Phi Long
                                 </motion.p>
+
+                                <motion.h1
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.5, duration: 0.7 }}
+                                    className="text-7xl md:text-9xl font-black text-[#F9F6F0] tracking-tight leading-none mb-6"
+                                    style={{ textShadow: "0 4px 40px rgba(0,0,0,0.4)" }}
+                                >
+                                    The Desk.
+                                </motion.h1>
+
+                                <motion.p
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.9, duration: 0.6 }}
+                                    className="text-[#F9F6F0]/70 font-sans text-sm tracking-wide max-w-sm text-center mb-10"
+                                >
+                                    Data investigations. Questions worth asking.
+                                </motion.p>
+
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 1.3, duration: 0.5 }}
+                                    className="pointer-events-auto flex flex-col items-center gap-3"
+                                >
+                                    <motion.button
+                                        onClick={() => setCurtainOpen(true)}
+                                        animate={{ boxShadow: ["0 0 0px rgba(249,246,240,0)", "0 0 24px rgba(249,246,240,0.15)", "0 0 0px rgba(249,246,240,0)"] }}
+                                        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                                        className="group relative px-10 py-4 border border-[#F9F6F0]/50 text-[#F9F6F0] font-mono text-xs uppercase tracking-[0.3em] hover:bg-[#F9F6F0]/10 transition-all duration-300 overflow-hidden"
+                                    >
+                                        <motion.span
+                                            className="absolute inset-0 bg-[#F9F6F0]/5"
+                                            animate={{ x: ["-100%", "100%"] }}
+                                            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                                            style={{ skewX: "-20deg" }}
+                                        />
+                                        <span className="relative flex items-center gap-3">
+                                            Click anywhere to enter
+                                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
+                                        </span>
+                                    </motion.button>
+                                    <motion.p
+                                        animate={{ opacity: [0.3, 0.7, 0.3] }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                        className="font-mono text-[10px] text-[#F9F6F0]/30 uppercase tracking-widest"
+                                    >
+                                        or click the curtain
+                                    </motion.p>
+                                </motion.div>
+                            </div>
+
+                            {/* RIGHT decorative panel */}
+                            <motion.div
+                                initial={{ opacity: 0, x: 30 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.6, duration: 0.7 }}
+                                className="hidden lg:flex flex-col gap-4 w-52 items-end"
+                            >
+                                <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#F9F6F0]/40 mb-1">Skills</p>
+                                {["SQL · Relational DB", "Python · ML Models", "Data Storytelling", "Product Thinking", "Analytics"].map((skill, i) => (
+                                    <motion.div
+                                        key={skill}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: 0.8 + i * 0.12, duration: 0.5 }}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <span className="font-mono text-xs text-[#F9F6F0]/60">{skill}</span>
+                                        <motion.div
+                                            className="w-1.5 h-1.5 rounded-full bg-[#F9F6F0]/40"
+                                            animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.9, 0.4] }}
+                                            transition={{ duration: 2, delay: 1.2 + i * 0.2, repeat: Infinity }}
+                                        />
+                                    </motion.div>
+                                ))}
+
+                                {/* Floating quote */}
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 1.6, duration: 0.8 }}
+                                    className="mt-4 border-l-2 border-[#F9F6F0]/20 pl-3"
+                                >
+                                    <p className="font-serif text-xs italic text-[#F9F6F0]/40 leading-relaxed">
+                                        "Without data,<br />you're just another person<br />with an opinion."
+                                    </p>
+                                    <p className="font-mono text-[9px] text-[#F9F6F0]/25 mt-1">— W. Edwards Deming</p>
+                                </motion.div>
                             </motion.div>
                         </motion.div>
                     </>
@@ -254,6 +401,105 @@ export default function DeskHubPage() {
             <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
             <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
 
+            {/* LEFT side decoration */}
+            <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8, duration: 0.8 }}
+                className="fixed left-0 top-0 bottom-0 w-24 z-10 pointer-events-none hidden lg:flex flex-col justify-center items-center gap-6 pl-5"
+            >
+                {/* Vertical label */}
+                <div className="flex flex-col items-center gap-3">
+                    <div className="w-[1px] h-16 bg-gradient-to-b from-transparent to-[#C54B3E]/40" />
+                    <span className="font-mono text-[9px] text-[#C54B3E]/50 uppercase tracking-[0.3em]" style={{ writingMode: "vertical-rl" }}>
+                        Data · Analytics
+                    </span>
+                    <div className="w-[1px] h-16 bg-gradient-to-t from-transparent to-[#C54B3E]/40" />
+                </div>
+
+                {/* Stat stack */}
+                <div className="flex flex-col gap-4 items-center">
+                    {[{ val: "2", label: "Projects" }, { val: "1M+", label: "Rows" }, { val: "∞", label: "Questions" }].map((s, i) => (
+                        <motion.div
+                            key={s.label}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.2 + i * 0.2 }}
+                            className="flex flex-col items-center gap-0.5"
+                        >
+                            <span className="font-serif text-lg font-black text-[#F9F6F0]/70">{s.val}</span>
+                            <span className="font-mono text-[8px] text-[#A0B0C0]/50 uppercase tracking-widest">{s.label}</span>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* Animated dot trail */}
+                <div className="flex flex-col gap-2 items-center">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="w-1 h-1 rounded-full bg-[#C54B3E]"
+                            animate={{ opacity: [0.1, 0.6, 0.1] }}
+                            transition={{ duration: 2, delay: i * 0.25, repeat: Infinity }}
+                        />
+                    ))}
+                </div>
+            </motion.div>
+
+            {/* RIGHT side decoration */}
+            <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8, duration: 0.8 }}
+                className="fixed right-0 top-0 bottom-0 w-24 z-10 pointer-events-none hidden lg:flex flex-col justify-center items-center gap-6 pr-5"
+            >
+                {/* Vertical label */}
+                <div className="flex flex-col items-center gap-3">
+                    <div className="w-[1px] h-16 bg-gradient-to-b from-transparent to-[#C54B3E]/40" />
+                    <span className="font-mono text-[9px] text-[#C54B3E]/50 uppercase tracking-[0.3em]" style={{ writingMode: "vertical-rl" }}>
+                        Product · Thinking
+                    </span>
+                    <div className="w-[1px] h-16 bg-gradient-to-t from-transparent to-[#C54B3E]/40" />
+                </div>
+
+                {/* Mini chart bars */}
+                <motion.div className="flex items-end gap-1 h-16">
+                    {[40, 65, 30, 80, 55, 90, 45].map((h, i) => (
+                        <motion.div
+                            key={i}
+                            className="w-1.5 rounded-sm bg-[#C54B3E]/40"
+                            initial={{ height: 0 }}
+                            animate={{ height: `${h}%` }}
+                            transition={{ delay: 1.3 + i * 0.1, duration: 0.5, ease: "easeOut" }}
+                        />
+                    ))}
+                </motion.div>
+
+                {/* Quote */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.8, duration: 0.8 }}
+                    className="border-r-2 border-[#C54B3E]/25 pr-2 text-right"
+                >
+                    <p className="font-serif text-[10px] italic text-[#F9F6F0]/30 leading-relaxed" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
+                        "In god we trust. All others bring data."
+                    </p>
+                </motion.div>
+
+                {/* Animated dot trail */}
+                <div className="flex flex-col gap-2 items-center">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="w-1 h-1 rounded-full bg-[#C54B3E]"
+                            animate={{ opacity: [0.1, 0.6, 0.1] }}
+                            transition={{ duration: 2, delay: 0.5 + i * 0.25, repeat: Infinity }}
+                        />
+                    ))}
+                </div>
+            </motion.div>
+
             {/* HERO */}
             <header className="relative z-20 pt-36 pb-0 px-8 md:px-24 max-w-7xl mx-auto w-full">
                 <motion.div
@@ -271,9 +517,6 @@ export default function DeskHubPage() {
                     <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-[#F9F6F0] leading-[0.9] whitespace-nowrap">
                         The Desk.
                     </h1>
-                    <p className="text-[#A0B0C0] font-sans text-lg leading-relaxed max-w-xl">
-                        A collection of data investigations — each one a question worth asking, a dataset worth breaking open.
-                    </p>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20, scale: 0.98 }}
@@ -442,6 +685,7 @@ export default function DeskHubPage() {
 
                 {/* Scroll hint */}
             </header>
+
 
             {/* CASE FILES SECTION */}
             <main className="relative z-20 flex-1 w-full max-w-7xl mx-auto px-8 md:px-24 pt-16 pb-24">
