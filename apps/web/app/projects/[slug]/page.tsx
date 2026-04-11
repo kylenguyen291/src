@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, use } from "react";
+import { useEffect, useRef, useState, use, useCallback } from "react";
 import Lenis from "lenis";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Home, ExternalLink, FileText } from "lucide-react";
+import { Home, FileText } from "lucide-react";
 import Link from "next/link";
 import { projects } from "../../../lib/projects";
 import { CustomCursor } from "../../../components/scrapbook/CustomCursor";
@@ -16,6 +16,21 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
     
     // lenis initialization inside component avoids errors on server
     const containerRef = useRef<HTMLDivElement>(null);
+    const [activeSection, setActiveSection] = useState(0);
+    const lenisRef = useRef<Lenis | null>(null);
+
+    const sectionIds = [
+        "section-hero",
+        "section-opening",
+        ...( project?.story.chapters.map(c => c.id) || []),
+        "section-closing",
+    ];
+    const sectionLabels = [
+        "Intro",
+        "The Question",
+        ...(project?.story.chapters.map(c => c.heading.split(" ").slice(0, 3).join(" ")) || []),
+        "The Insight",
+    ];
 
     useEffect(() => {
         if (!project) return;
@@ -27,6 +42,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             wheelMultiplier: 1,
             touchMultiplier: 2,
         });
+        lenisRef.current = lenis;
 
         function raf(time: number) {
             lenis.raf(time);
@@ -36,8 +52,53 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
         return () => {
             lenis.destroy();
+            lenisRef.current = null;
         };
     }, [project]);
+
+    // IntersectionObserver to track active section
+    useEffect(() => {
+        if (!project) return;
+        const observers: IntersectionObserver[] = [];
+        const handleIntersect = (index: number) => (entries: IntersectionObserverEntry[]) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveSection(index);
+                }
+            });
+        };
+
+        // Small delay to ensure DOM is ready
+        const timer = setTimeout(() => {
+            sectionIds.forEach((id, index) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const observer = new IntersectionObserver(handleIntersect(index), {
+                        rootMargin: "-40% 0px -40% 0px",
+                        threshold: 0.1,
+                    });
+                    observer.observe(el);
+                    observers.push(observer);
+                }
+            });
+        }, 300);
+
+        return () => {
+            clearTimeout(timer);
+            observers.forEach(o => o.disconnect());
+        };
+    }, [project]);
+
+    const scrollToSection = useCallback((id: string) => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (lenisRef.current) {
+                lenisRef.current.scrollTo(el, { offset: -100, duration: 1.5 });
+            } else {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+    }, []);
 
     if (!project) {
         return <div className="min-h-screen text-white bg-[#121212] flex items-center justify-center">Project not found</div>;
@@ -72,10 +133,53 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 <Home className="w-5 h-5" />
             </Link>
 
+            {/* Progress Stepper */}
+            <nav className="fixed top-0 left-0 right-0 z-40 pointer-events-none">
+                <div className="mx-auto max-w-4xl px-8 py-5 pointer-events-auto">
+                    <div className="relative flex items-center justify-between bg-[#1a1a1a]/80 backdrop-blur-xl rounded-full px-6 py-3 border border-white/5 shadow-2xl shadow-black/40">
+                        {/* Connecting line (background) */}
+                        <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#A0B0C0]/15 rounded-full" />
+                        {/* Connecting line (progress fill) */}
+                        <div 
+                            className="absolute left-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#C54B3E] rounded-full transition-all duration-700 ease-out"
+                            style={{ width: `${(activeSection / (sectionIds.length - 1)) * (100 - (12 / 4))}%` }}
+                        />
+
+                        {sectionIds.map((id, i) => (
+                            <button
+                                key={id}
+                                onClick={() => scrollToSection(id)}
+                                className="interactive relative z-10 group flex flex-col items-center"
+                                title={sectionLabels[i]}
+                            >
+                                {/* Circle */}
+                                <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
+                                    i <= activeSection
+                                        ? "bg-[#C54B3E] border-[#C54B3E] scale-110 shadow-[0_0_12px_rgba(197,75,62,0.5)]"
+                                        : "bg-[#1a1a1a] border-[#A0B0C0]/30 hover:border-[#C54B3E]/50 hover:scale-110"
+                                }`}>
+                                    {i === activeSection && (
+                                        <div className="absolute inset-0 rounded-full bg-[#C54B3E] animate-ping opacity-30" />
+                                    )}
+                                </div>
+                                {/* Label tooltip */}
+                                <span className={`absolute top-7 whitespace-nowrap text-[10px] font-mono uppercase tracking-wider transition-all duration-300 ${
+                                    i === activeSection
+                                        ? "opacity-100 text-[#C54B3E] translate-y-0"
+                                        : "opacity-0 group-hover:opacity-70 text-[#A0B0C0] translate-y-1 group-hover:translate-y-0"
+                                }`}>
+                                    {sectionLabels[i]}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </nav>
+
             <main className="relative z-20 mx-auto px-12 md:px-24 pt-32 pb-48 w-full">
                 
                 {/* HERO SECTION */}
-                <section className="h-[90vh] flex flex-col items-center justify-center relative">
+                <section id="section-hero" className="h-[90vh] flex flex-col items-center justify-center relative">
                     <motion.div className="flex flex-col items-center relative z-20">
                         <p className="font-mono text-[#A0B0C0] mb-6 tracking-widest uppercase text-sm">{project.category} · {project.date}</p>
                         <h1 className="text-6xl md:text-8xl text-center leading-[0.9] tracking-tight antialiased max-w-5xl">
@@ -99,7 +203,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 </section>
 
                 {/* OPENING HOOK */}
-                <section className="relative mt-[20vh] min-h-[60vh] flex flex-col items-center justify-center max-w-4xl mx-auto text-center z-20">
+                <section id="section-opening" className="relative mt-[20vh] min-h-[60vh] flex flex-col items-center justify-center max-w-4xl mx-auto text-center z-20">
                     <p className="text-3xl md:text-4xl text-[#F9F6F0] leading-relaxed mb-12">
                         {project.story.opening.hook}
                     </p>
@@ -165,7 +269,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 </div>
 
                 {/* CLOSING SECTION */}
-                <section className="relative mt-[30vh] min-h-screen flex flex-col items-center justify-center w-full max-w-4xl mx-auto text-center z-30">
+                <section id="section-closing" className="relative mt-[30vh] min-h-screen flex flex-col items-center justify-center w-full max-w-4xl mx-auto text-center z-30">
                     <h3 className="text-3xl font-mono text-[#C54B3E] mb-12 italic">"The Insight"</h3>
                     
                     <div className="relative">
@@ -183,13 +287,10 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                     {project.story.closing.cta && project.story.closing.ctaHref && (
                                         <Link 
                                             href={project.story.closing.ctaHref} 
-                                            target="_blank"
-                                            rel="noopener noreferrer"
                                             className="interactive inline-flex items-center gap-3 px-8 py-4 bg-[#C54B3E] text-white rounded-full font-sans font-semibold tracking-wide hover:bg-black transition-colors"
                                         >
                                             <FileText className="w-5 h-5" />
                                             {project.story.closing.cta}
-                                            <ExternalLink className="w-4 h-4 ml-1 opacity-70" />
                                         </Link>
                                     )}
                                 </div>

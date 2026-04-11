@@ -152,7 +152,7 @@ export const projects: Project[] = [
       closing: {
         insight: "It bridges the world of football analytics and the world of brand strategy, proving that the same data powering match previews and fantasy leagues can power million-dollar sponsorship decisions.",
         cta: "Read Full Report",
-        ctaHref: "/pdf/Project%201.pdf",
+        ctaHref: "/projects/football-sponsorship-analytics/var2",
       },
     },
   },
