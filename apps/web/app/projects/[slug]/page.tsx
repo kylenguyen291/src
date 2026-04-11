@@ -285,19 +285,76 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
                 {/* OPENING HOOK */}
                 <section id="section-opening" className="relative mt-[20vh] min-h-[60vh] flex flex-col items-center justify-center max-w-4xl mx-auto text-center z-20">
-                    <p className="text-3xl md:text-4xl text-[#F9F6F0] leading-relaxed mb-12">
-                        {project.story.opening.hook}
-                    </p>
-                    <p className="text-[#A0B0C0] font-mono text-xl md:text-2xl italic mb-16">
-                        "{project.story.opening.bigQuestion}"
-                    </p>
 
+                    {/* Spotlight beam from top */}
+                    <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[500px] pointer-events-none"
+                        style={{
+                            background: "radial-gradient(ellipse 40% 60% at 50% 0%, rgba(197,75,62,0.18) 0%, transparent 70%)",
+                        }}
+                    />
+
+                    {/* Hook text */}
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-15%" }}
+                        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                        className="text-3xl md:text-5xl text-[#F9F6F0] leading-relaxed mb-12 font-medium"
+                        style={{ textShadow: "0 0 60px rgba(197,75,62,0.15)" }}
+                    >
+                        {project.story.opening.hook}
+                    </motion.p>
+
+                    {/* Big question — glowing italic */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.96 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, margin: "-15%" }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                        className="relative mb-16 px-8 py-6"
+                    >
+                        {/* Subtle glow behind quote */}
+                        <div className="absolute inset-0 rounded-xl pointer-events-none"
+                            style={{
+                                background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(197,75,62,0.10) 0%, transparent 80%)",
+                                boxShadow: "inset 0 0 40px rgba(197,75,62,0.06)",
+                            }}
+                        />
+                        <p className="relative text-[#C54B3E]/90 font-mono text-xl md:text-2xl italic leading-relaxed"
+                            style={{ textShadow: "0 0 30px rgba(197,75,62,0.4)" }}
+                        >
+                            &ldquo;{project.story.opening.bigQuestion}&rdquo;
+                        </p>
+                        {/* Decorative quote marks */}
+                        <span className="absolute -top-4 left-2 text-[#C54B3E]/20 font-serif text-7xl leading-none select-none">&ldquo;</span>
+                        <span className="absolute -bottom-8 right-2 text-[#C54B3E]/20 font-serif text-7xl leading-none select-none">&rdquo;</span>
+                    </motion.div>
+
+                    {/* Highlight pills — staggered */}
                     {project.story.opening.highlights && (
-                        <div className="flex flex-wrap justify-center gap-6">
+                        <div className="flex flex-wrap justify-center gap-4">
                             {project.story.opening.highlights.map((highlight, i) => (
-                                <div key={i} className="px-6 py-4 bg-white/10 border border-[#C54B3E]/20 rounded-full backdrop-blur-sm">
-                                    <span className="text-[#F9F6F0] font-mono text-sm font-bold uppercase tracking-wider">{highlight}</span>
-                                </div>
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 16 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-10%" }}
+                                    transition={{ duration: 0.5, delay: 0.35 + i * 0.1, ease: "easeOut" }}
+                                    whileHover={{ scale: 1.05, borderColor: "rgba(197,75,62,0.7)" }}
+                                    className="relative px-6 py-3 border border-[#C54B3E]/30 rounded-full backdrop-blur-sm cursor-default overflow-hidden"
+                                    style={{ background: "rgba(197,75,62,0.07)" }}
+                                >
+                                    {/* Shimmer on hover */}
+                                    <motion.div
+                                        className="absolute inset-0 -translate-x-full rounded-full"
+                                        whileHover={{ translateX: "200%" }}
+                                        transition={{ duration: 0.6 }}
+                                        style={{ background: "linear-gradient(90deg, transparent, rgba(197,75,62,0.15), transparent)" }}
+                                    />
+                                    <span className="relative text-[#F9F6F0] font-mono text-sm font-bold uppercase tracking-widest">
+                                        {highlight}
+                                    </span>
+                                </motion.div>
                             ))}
                         </div>
                     )}
