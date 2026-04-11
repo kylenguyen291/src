@@ -4,66 +4,89 @@ import { useEffect, useState } from "react";
 import { motion, useSpring } from "framer-motion";
 
 export function CustomCursor() {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
 
-    // Smooth springs for cursor movement
-    const springX = useSpring(0, { stiffness: 500, damping: 28 });
-    const springY = useSpring(0, { stiffness: 500, damping: 28 });
+    const fastX = useSpring(0, { stiffness: 600, damping: 30 });
+    const fastY = useSpring(0, { stiffness: 600, damping: 30 });
+    const slowX = useSpring(0, { stiffness: 120, damping: 22 });
+    const slowY = useSpring(0, { stiffness: 120, damping: 22 });
 
     useEffect(() => {
-        const updateMousePosition = (e: MouseEvent) => {
-            springX.set(e.clientX);
-            springY.set(e.clientY);
+        const onMove = (e: MouseEvent) => {
+            fastX.set(e.clientX);
+            fastY.set(e.clientY);
+            slowX.set(e.clientX);
+            slowY.set(e.clientY);
         };
 
-        const updateHoverState = (e: MouseEvent) => {
+        const onOver = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            // If hovering over a link, button, or our interactive cards
-            if (
-                target.closest("a") ||
-                target.closest("button") ||
-                target.closest(".interactive")
-            ) {
-                setIsHovering(true);
-            } else {
-                setIsHovering(false);
-            }
+            setIsHovering(
+                !!(target.closest("a") || target.closest("button") || target.closest(".interactive"))
+            );
         };
 
-        window.addEventListener("mousemove", updateMousePosition);
-        window.addEventListener("mouseover", updateHoverState);
-
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("mouseover", onOver);
         return () => {
-            window.removeEventListener("mousemove", updateMousePosition);
-            window.removeEventListener("mouseover", updateHoverState);
+            window.removeEventListener("mousemove", onMove);
+            window.removeEventListener("mouseover", onOver);
         };
-    }, [springX, springY]);
+    }, [fastX, fastY, slowX, slowY]);
 
     return (
-        <motion.div
-            className="fixed top-0 left-0 w-4 h-4 rounded-full bg-[#C54B3E] pointer-events-none z-[9999] mix-blend-difference flex items-center justify-center text-[10px] font-bold text-white whitespace-nowrap overflow-hidden"
-            style={{
-                x: springX,
-                y: springY,
-                translateX: "-50%",
-                translateY: "-50%",
-            }}
-            animate={{
-                scale: isHovering ? 4 : 1,
-                opacity: 0.8,
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        >
-            {isHovering && (
+        <>
+            {/* Outer diffuse glow */}
+            <motion.div
+                className="fixed top-0 left-0 pointer-events-none z-[9997] rounded-full"
+                style={{
+                    x: slowX,
+                    y: slowY,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                    width: 120,
+                    height: 120,
+                    background: "radial-gradient(circle, rgba(197,75,62,0.18) 0%, transparent 70%)",
+                }}
+            />
+
+            {/* VIEW ring — expands on hover */}
+            <motion.div
+                className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full border border-[#C54B3E]/60 flex items-center justify-center"
+                style={{ x: slowX, y: slowY, translateX: "-50%", translateY: "-50%" }}
+                animate={{
+                    width: isHovering ? 80 : 28,
+                    height: isHovering ? 80 : 28,
+                    opacity: isHovering ? 1 : 0.5,
+                    backgroundColor: isHovering ? "rgba(197,75,62,0.12)" : "transparent",
+                }}
+                transition={{ type: "spring", stiffness: 260, damping: 22 }}
+            >
                 <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.1 }}
+                    className="font-mono font-bold tracking-[0.25em] text-[#C54B3E] select-none"
+                    style={{ fontSize: "0.6rem" }}
+                    animate={{ opacity: isHovering ? 1 : 0 }}
+                    transition={{ duration: 0.15 }}
                 >
                     VIEW
                 </motion.span>
-            )}
-        </motion.div>
+            </motion.div>
+
+            {/* Inner sharp dot */}
+            <motion.div
+                className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full bg-[#C54B3E]"
+                style={{
+                    x: fastX,
+                    y: fastY,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                    width: 6,
+                    height: 6,
+                    boxShadow: "0 0 8px rgba(197,75,62,0.8)",
+                }}
+                animate={{ scale: isHovering ? 0 : 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            />
+        </>
     );
 }
