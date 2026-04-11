@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from "next/dynamic";
 
 const Variant3Content = dynamic(() => import("./content"), { ssr: false });
