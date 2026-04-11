@@ -120,8 +120,6 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
 
             {/* Red Sticky Border Alignments */}
-            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
-            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
 
             {/* Floating Home Button */}
             <Link href="/" className="fixed top-6 left-12 z-50 interactive w-10 h-10 flex items-center justify-center rounded-full text-[#0E56FA] hover:bg-[#0E56FA]/10 transition-colors">

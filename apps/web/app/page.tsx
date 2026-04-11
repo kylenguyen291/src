@@ -37,23 +37,6 @@ export default function DeskHubPage() {
                             {[12, 28, 46, 64, 82].map((pos) => (
                                 <div key={pos} className="absolute top-0 bottom-0" style={{ left: `${pos}%`, width: "10px", background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.45), transparent)" }} />
                             ))}
-                            {[6, 20, 37, 55, 73, 90].map((pos) => (
-                                <div key={pos} className="absolute top-0 bottom-0" style={{ left: `${pos}%`, width: "8px", background: "linear-gradient(90deg, transparent, rgba(255,120,80,0.25), transparent)" }} />
-                            ))}
-                            <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(255,140,100,0.18) 0%, transparent 40%, rgba(0,0,0,0.2) 100%)" }} />
-                            <div className="absolute top-0 left-0 right-0 h-1/3" style={{ background: "linear-gradient(180deg, rgba(255,120,80,0.12) 0%, transparent 100%)" }} />
-                            <div className="absolute bottom-0 left-0 right-0 h-1/4" style={{ background: "linear-gradient(0deg, rgba(0,0,0,0.25) 0%, transparent 100%)" }} />
-                            <div className="absolute top-0 right-0 bottom-0 w-12" style={{ background: "linear-gradient(to right, transparent, rgba(0,0,0,0.5))" }} />
-                            <div className="absolute top-0 left-0 right-0 flex justify-around px-4">
-                                {Array.from({ length: 7 }).map((_, i) => (
-                                    <div key={i} className="relative -mt-1">
-                                        <div className="w-5 h-5 rounded-full bg-[#5A0E06] border-2 border-[#A0300A]" />
-                                        <div className="absolute inset-[3px] rounded-full bg-[#8B1A0E]" />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-b from-[#6B1008] to-[#9B2010]" />
-                            <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-[#6B1008] to-[#9B2010]" />
                         </motion.div>
 
                         {/* Right panel */}
@@ -70,23 +53,6 @@ export default function DeskHubPage() {
                             {[18, 36, 54, 72, 88].map((pos) => (
                                 <div key={pos} className="absolute top-0 bottom-0" style={{ left: `${pos}%`, width: "10px", background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.45), transparent)" }} />
                             ))}
-                            {[10, 27, 45, 63, 80].map((pos) => (
-                                <div key={pos} className="absolute top-0 bottom-0" style={{ left: `${pos}%`, width: "8px", background: "linear-gradient(90deg, transparent, rgba(255,120,80,0.25), transparent)" }} />
-                            ))}
-                            <div className="absolute inset-0" style={{ background: "linear-gradient(270deg, rgba(255,140,100,0.18) 0%, transparent 40%, rgba(0,0,0,0.2) 100%)" }} />
-                            <div className="absolute top-0 left-0 right-0 h-1/3" style={{ background: "linear-gradient(180deg, rgba(255,120,80,0.12) 0%, transparent 100%)" }} />
-                            <div className="absolute bottom-0 left-0 right-0 h-1/4" style={{ background: "linear-gradient(0deg, rgba(0,0,0,0.25) 0%, transparent 100%)" }} />
-                            <div className="absolute top-0 left-0 bottom-0 w-12" style={{ background: "linear-gradient(to left, transparent, rgba(0,0,0,0.5))" }} />
-                            <div className="absolute top-0 left-0 right-0 flex justify-around px-4">
-                                {Array.from({ length: 7 }).map((_, i) => (
-                                    <div key={i} className="relative -mt-1">
-                                        <div className="w-5 h-5 rounded-full bg-[#5A0E06] border-2 border-[#A0300A]" />
-                                        <div className="absolute inset-[3px] rounded-full bg-[#8B1A0E]" />
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-b from-[#6B1008] to-[#9B2010]" />
-                            <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-[#6B1008] to-[#9B2010]" />
                         </motion.div>
 
                         {/* Center content */}
