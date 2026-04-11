@@ -8,6 +8,7 @@ import Link from "next/link";
 import confetti from "canvas-confetti";
 import { projects } from "../../../lib/projects";
 import { CustomCursor } from "../../../components/scrapbook/CustomCursor";
+import { CursorGlow } from "../../../components/scrapbook/CursorGlow";
 import { ScrapCard } from "../../../components/scrapbook/ScrapCard";
 import { LiveSVG } from "../../../components/scrapbook/LiveSVG";
 
@@ -176,6 +177,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             ref={containerRef}
         >
             <CustomCursor />
+            <CursorGlow />
 
             {/* Global Noise Grain Overlay */}
             <div className="fixed inset-0 z-50 pointer-events-none opacity-[0.05] mix-blend-overlay"
@@ -254,20 +256,31 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                         />
                     </motion.div>
 
-                    <motion.div style={{ y: ySlow }} className="absolute -bottom-32 left-0 rotate-[-8deg] opacity-70 blur-[2px] hidden md:block z-0 pointer-events-none">
-                        <ScrapCard width={400} height={300} content={
-                            <div className="absolute inset-0 overflow-hidden">
-                                <img src="/images/uefa-champions-league.jpg" alt="UEFA Champions League" className="w-full h-full object-cover" />
-                            </div>
-                        } />
-                    </motion.div>
-                    <motion.div style={{ y: yFast }} className="absolute -bottom-16 right-10 rotate-[12deg] z-30 hidden md:block">
-                        <ScrapCard width={350} height={250} content={
-                            <div className="absolute inset-0 overflow-hidden">
-                                <img src="/images/uefa-champions-league.jpg" alt="UEFA Champions League" className="w-full h-full object-cover" />
-                            </div>
-                        } />
-                    </motion.div>
+                    {(() => {
+                        const heroImg = slug === "loan-default-prediction"
+                            ? "/images/bank-building.png"
+                            : "/images/uefa-champions-league.jpg";
+                        return (
+                            <>
+                                <motion.div style={{ y: ySlow }} className="absolute -bottom-32 left-0 rotate-[-8deg] opacity-70 blur-[2px] hidden md:block z-0 pointer-events-none">
+                                    <ScrapCard width={400} height={300} content={
+                                        <div className="absolute inset-0 overflow-hidden">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img src={heroImg} alt="Project visual" className="w-full h-full object-cover" />
+                                        </div>
+                                    } />
+                                </motion.div>
+                                <motion.div style={{ y: yFast }} className="absolute -bottom-16 right-10 rotate-[12deg] z-30 hidden md:block">
+                                    <ScrapCard width={350} height={250} content={
+                                        <div className="absolute inset-0 overflow-hidden">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img src={heroImg} alt="Project visual" className="w-full h-full object-cover" />
+                                        </div>
+                                    } />
+                                </motion.div>
+                            </>
+                        );
+                    })()}
                 </section>
 
                 {/* OPENING HOOK */}

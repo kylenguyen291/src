@@ -66,6 +66,26 @@ export function ScrapCard({
                 )}
             </div>
 
+            {/* Hover VIEW overlay */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isHovered ? 1 : 0 }}
+                transition={{ duration: 0.2 }}
+                className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+                style={{ background: "rgba(0,0,0,0.35)" }}
+            >
+                <span
+                    className="font-mono font-bold uppercase tracking-[0.3em] text-white"
+                    style={{
+                        fontSize: "1.1rem",
+                        letterSpacing: "0.35em",
+                        textShadow: "0 0 18px rgba(197,75,62,0.9), 0 2px 8px rgba(0,0,0,0.8)",
+                    }}
+                >
+                    VIEW
+                </span>
+            </motion.div>
+
         </motion.div>
     );
 }
