@@ -280,10 +280,10 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     </p>
 
                     {project.story.opening.highlights && (
-                        <div className="flex flex-wrap justify-center gap-4">
+                        <div className="flex flex-wrap justify-center gap-6">
                             {project.story.opening.highlights.map((highlight, i) => (
-                                <div key={i} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-                                    <span className="text-[#A0B0C0] font-mono text-xs uppercase tracking-widest">{highlight}</span>
+                                <div key={i} className="px-6 py-4 bg-white/10 border border-[#C54B3E]/20 rounded-full backdrop-blur-sm">
+                                    <span className="text-[#F9F6F0] font-mono text-sm font-bold uppercase tracking-wider">{highlight}</span>
                                 </div>
                             ))}
                         </div>
@@ -308,18 +308,27 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                     {chapter.highlights && (
                                         <ul className="space-y-3 pt-4">
                                             {chapter.highlights.map((highlight, i) => (
-                                                <li key={i} className="flex items-start gap-3">
-                                                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#C54B3E] shrink-0" />
+                                                <li key={i} className="flex items-start">
                                                     <span className="text-[#A0B0C0] font-mono text-sm leading-relaxed">{highlight}</span>
                                                 </li>
                                             ))}
                                         </ul>
                                     )}
 
-                                    {chapter.stat && (
-                                        <div className="pt-8">
-                                            <p className="text-6xl sm:text-7xl font-bold text-[#C54B3E] tracking-tighter">{chapter.stat.value}</p>
-                                            <p className="uppercase font-mono text-sm tracking-widest text-[#A0B0C0] mt-2">{chapter.stat.label}</p>
+                                    {(chapter.stat || chapter.stats) && (
+                                        <div className="pt-8 flex justify-center items-center gap-12 flex-wrap">
+                                            {chapter.stat && (
+                                                <div className="text-center">
+                                                    <p className="text-5xl sm:text-6xl font-bold text-[#C54B3E] tracking-tighter">{chapter.stat.value}</p>
+                                                    <p className="uppercase font-mono text-xs tracking-widest text-[#A0B0C0] mt-2">{chapter.stat.label}</p>
+                                                </div>
+                                            )}
+                                            {chapter.stats && chapter.stats.map((stat, i) => (
+                                                <div key={i} className="text-center">
+                                                    <p className="text-5xl sm:text-6xl font-bold text-[#C54B3E] tracking-tighter">{stat.value}</p>
+                                                    <p className="uppercase font-mono text-xs tracking-widest text-[#A0B0C0] mt-2">{stat.label}</p>
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
 

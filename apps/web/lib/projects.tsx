@@ -22,6 +22,10 @@ export interface Chapter {
     value: string;
     label: string;
   };
+  stats?: {
+    value: string;
+    label: string;
+  }[];
 }
 
 export interface Project {
@@ -92,11 +96,6 @@ export const projects: Project[] = [
           id: "act-1",
           heading: "The Problem No One Was Solving",
           body: "The gap was clear: raw football statistics and the commercial outcomes that investors care about lived in completely different worlds. No bridge existed between them.",
-          highlights: [
-            "7 raw CSVs — zero enforced relationships",
-            "4 structural failures — no model, no integrity, no analytical layer",
-            "$155M/year — Nike × Barcelona kit deal, zero data backing it",
-          ],
           scrapCards: [
             {
               width: 400,
@@ -113,6 +112,16 @@ export const projects: Project[] = [
             value: "0",
             label: "commercial bridges",
           },
+          stats: [
+            {
+              value: "7",
+              label: "raw csvs",
+            },
+            {
+              value: "155M",
+              label: "annual deal",
+            },
+          ],
           annotation: {
             svg: ["M 10 30 Q 50 50 100 30 T 190 20"],
             label: "Disconnected",
@@ -123,10 +132,19 @@ export const projects: Project[] = [
           id: "act-2",
           heading: "Designing the Bridge",
           body: "The architecture followed a deliberate four-step pipeline: Raw Ingestion, Profiling and Validation, Core Schema Structuring, and Data Normalization. It transformed messy CSV source files into a governed, sponsor-ready analytical platform.",
-          highlights: [
-            "4-step pipeline — Ingest → Validate → Structure → Normalize",
-            "14 governed entities in `football_core`",
-            "726,000+ rows — zero orphan records, zero blank IDs",
+          stats: [
+            {
+              value: "4",
+              label: "step pipeline",
+            },
+            {
+              value: "14",
+              label: "governed entities",
+            },
+            {
+              value: "726K",
+              label: "rows",
+            },
           ],
           scrapCards: [
             { 
@@ -155,10 +173,19 @@ export const projects: Project[] = [
           id: "act-3",
           heading: "Asking the Right Questions",
           body: "With a trustworthy, normalized database in place, the project posed 15 commercial questions organized around five analytical pillars: Audience Exposure, Narrative Impact, Reliability, Risk Management, and Value Identification.",
-          highlights: [
-            "15 commercial questions across 5 analytical pillars",
-            "Bundesliga Action Index: 8.4 — highest of all 5 leagues",
-            "Premier League Stability Index: 0.17 — most consistent year-on-year",
+          stats: [
+            {
+              value: "15",
+              label: "commercial questions",
+            },
+            {
+              value: "5",
+              label: "analytical pillars",
+            },
+            {
+              value: "8.4",
+              label: "action index",
+            },
           ],
           scrapCards: [
             {
@@ -182,10 +209,19 @@ export const projects: Project[] = [
           id: "act-4",
           heading: "What This Makes Possible",
           body: "Brands can now choose where to invest by comparing league-level action intensity, volatility, and seasonal predictability. They can pick who to back by screening players for involvement, discipline, playing-time reliability, and hidden value.",
-          highlights: [
-            "15 repeatable SQL queries replacing expensive agency audits",
-            "\"Safe Stars\" — >4.5 involvement/90 + <0.15 card risk/90",
-            "30–50% lower fees contracting Hidden Stars before valuations peak",
+          stats: [
+            {
+              value: "15",
+              label: "sql queries",
+            },
+            {
+              value: "4.5",
+              label: "involvement rate",
+            },
+            {
+              value: "50%",
+              label: "lower fees",
+            },
           ],
           scrapCards: [
             {
@@ -199,10 +235,6 @@ export const projects: Project[] = [
               ),
             },
           ],
-          stat: {
-            value: "100%",
-            label: "auditable insights",
-          },
         },
       ],
       depiction: {
