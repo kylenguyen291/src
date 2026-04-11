@@ -80,6 +80,18 @@ export const projects: Project[] = [
           id: "act-1",
           heading: "The Problem No One Was Solving",
           body: "The gap was clear: raw football statistics and the commercial outcomes that investors care about lived in completely different worlds. No bridge existed between them.",
+          scrapCards: [
+            {
+              width: 400,
+              height: 280,
+              rotation: -4,
+              content: (
+                <div className="absolute inset-0 overflow-hidden">
+                  <img src="/images/messi-and-ronaldo.avif" alt="Messi and Ronaldo" className="w-full h-full object-cover" />
+                </div>
+              ),
+            },
+          ],
           stat: {
             value: "0",
             label: "commercial bridges",
@@ -100,14 +112,8 @@ export const projects: Project[] = [
               height: 200, 
               rotation: 6,
               content: (
-                <div className="w-full h-full relative overflow-hidden bg-white">
-                  <div className="absolute inset-0 z-10" />
-                  <iframe 
-                    src="/pdf/Project%201.pdf#page=1&view=Fit&toolbar=0&navpanes=0&scrollbar=0" 
-                    className="w-full h-full absolute scale-110 pointer-events-none"
-                    style={{ top: '-5%', left: '-5%' }}
-                    title="Slide 1" 
-                  />
+                <div className="absolute inset-0 overflow-hidden">
+                  <img src="/images/football-data.png" alt="Football Data" className="w-full h-full object-cover" />
                 </div>
               )
             },
@@ -116,14 +122,8 @@ export const projects: Project[] = [
               height: 220, 
               rotation: -3,
               content: (
-                <div className="w-full h-full relative overflow-hidden bg-white">
-                  <div className="absolute inset-0 z-10" />
-                  <iframe 
-                    src="/pdf/Project%201.pdf#page=2&view=Fit&toolbar=0&navpanes=0&scrollbar=0" 
-                    className="w-full h-full absolute scale-110 pointer-events-none"
-                    style={{ top: '-5%', left: '-5%' }}
-                    title="Slide 2" 
-                  />
+                <div className="absolute inset-0 overflow-hidden">
+                  <img src="/images/database.jpg" alt="Database" className="w-full h-full object-cover" />
                 </div>
               )
             },
@@ -133,6 +133,18 @@ export const projects: Project[] = [
           id: "act-3",
           heading: "Asking the Right Questions",
           body: "With a trustworthy, normalized database in place, the project posed 15 commercial questions organized around five analytical pillars: Audience Exposure, Narrative Impact, Reliability, Risk Management, and Value Identification.",
+          scrapCards: [
+            {
+              width: 380,
+              height: 260,
+              rotation: 5,
+              content: (
+                <div className="absolute inset-0 overflow-hidden">
+                  <img src="/images/mesut-ozil.avif" alt="Mesut Ozil" className="w-full h-full object-cover" />
+                </div>
+              ),
+            },
+          ],
           annotation: {
             svg: ["M 20 20 C 80 10 90 80 50 90 C 10 80 20 30 50 30"],
             label: "15 Key Metrics",
@@ -143,6 +155,18 @@ export const projects: Project[] = [
           id: "act-4",
           heading: "What This Makes Possible",
           body: "Brands can now choose where to invest by comparing league-level action intensity, volatility, and seasonal predictability. They can pick who to back by screening players for involvement, discipline, playing-time reliability, and hidden value.",
+          scrapCards: [
+            {
+              width: 400,
+              height: 280,
+              rotation: -5,
+              content: (
+                <div className="absolute inset-0 overflow-hidden">
+                  <img src="/images/champion.jpg" alt="Champion" className="w-full h-full object-cover" />
+                </div>
+              ),
+            },
+          ],
           stat: {
             value: "100%",
             label: "auditable insights",

@@ -10,6 +10,7 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "prettier": "^3.8.1",
@@ -20,5 +21,8 @@
   "packageManager": "pnpm@9.0.6",
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4"
   }
 }

@@ -5,6 +5,7 @@ import Lenis from "lenis";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Home, FileText } from "lucide-react";
 import Link from "next/link";
+import confetti from "canvas-confetti";
 import { projects } from "../../../lib/projects";
 import { CustomCursor } from "../../../components/scrapbook/CustomCursor";
 import { ScrapCard } from "../../../components/scrapbook/ScrapCard";
@@ -13,7 +14,7 @@ import { LiveSVG } from "../../../components/scrapbook/LiveSVG";
 export default function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = use(params);
     const project = projects.find(p => p.slug === slug);
-    
+
     // lenis initialization inside component avoids errors on server
     const containerRef = useRef<HTMLDivElement>(null);
     const [activeSection, setActiveSection] = useState(0);
@@ -22,7 +23,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
     const sectionIds = [
         "section-hero",
         "section-opening",
-        ...( project?.story.chapters.map(c => c.id) || []),
+        ...(project?.story.chapters.map(c => c.id) || []),
         "section-closing",
     ];
     const sectionLabels = [
@@ -100,6 +101,67 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         }
     }, []);
 
+    // Confetti effect when "The Insight" section comes into view
+    const confettiFired = useRef(false);
+    useEffect(() => {
+        if (!project) return;
+        const timer = setTimeout(() => {
+            const closingEl = document.getElementById("section-closing");
+            if (!closingEl) return;
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting && !confettiFired.current) {
+                            confettiFired.current = true;
+
+                            // Initial burst from left
+                            confetti({
+                                particleCount: 80,
+                                spread: 70,
+                                origin: { x: 0.2, y: 0.6 },
+                                colors: ["#C54B3E", "#F9F6F0", "#A0B0C0", "#FFD700", "#FF6B6B"],
+                                ticks: 200,
+                                gravity: 0.8,
+                                scalar: 1.2,
+                            });
+                            // Burst from right with slight delay
+                            setTimeout(() => {
+                                confetti({
+                                    particleCount: 80,
+                                    spread: 70,
+                                    origin: { x: 0.8, y: 0.6 },
+                                    colors: ["#C54B3E", "#F9F6F0", "#A0B0C0", "#FFD700", "#FF6B6B"],
+                                    ticks: 200,
+                                    gravity: 0.8,
+                                    scalar: 1.2,
+                                });
+                            }, 200);
+                            // Final center shower
+                            setTimeout(() => {
+                                confetti({
+                                    particleCount: 120,
+                                    spread: 100,
+                                    origin: { x: 0.5, y: 0.3 },
+                                    colors: ["#C54B3E", "#F9F6F0", "#A0B0C0", "#FFD700", "#FF6B6B"],
+                                    ticks: 300,
+                                    gravity: 0.6,
+                                    scalar: 1.4,
+                                });
+                            }, 500);
+                        }
+                    });
+                },
+                { threshold: 0.3 }
+            );
+
+            observer.observe(closingEl);
+            return () => observer.disconnect();
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [project]);
+
     if (!project) {
         return <div className="min-h-screen text-white bg-[#121212] flex items-center justify-center">Project not found</div>;
     }
@@ -140,7 +202,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                         {/* Connecting line (background) */}
                         <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#A0B0C0]/15 rounded-full" />
                         {/* Connecting line (progress fill) */}
-                        <div 
+                        <div
                             className="absolute left-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#C54B3E] rounded-full transition-all duration-700 ease-out"
                             style={{ width: `${(activeSection / (sectionIds.length - 1)) * (100 - (12 / 4))}%` }}
                         />
@@ -153,21 +215,19 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                 title={sectionLabels[i]}
                             >
                                 {/* Circle */}
-                                <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
-                                    i <= activeSection
+                                <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${i <= activeSection
                                         ? "bg-[#C54B3E] border-[#C54B3E] scale-110 shadow-[0_0_12px_rgba(197,75,62,0.5)]"
                                         : "bg-[#1a1a1a] border-[#A0B0C0]/30 hover:border-[#C54B3E]/50 hover:scale-110"
-                                }`}>
+                                    }`}>
                                     {i === activeSection && (
                                         <div className="absolute inset-0 rounded-full bg-[#C54B3E] animate-ping opacity-30" />
                                     )}
                                 </div>
                                 {/* Label tooltip */}
-                                <span className={`absolute top-7 whitespace-nowrap text-[10px] font-mono uppercase tracking-wider transition-all duration-300 ${
-                                    i === activeSection
+                                <span className={`absolute top-7 whitespace-nowrap text-[10px] font-mono uppercase tracking-wider transition-all duration-300 ${i === activeSection
                                         ? "opacity-100 text-[#C54B3E] translate-y-0"
                                         : "opacity-0 group-hover:opacity-70 text-[#A0B0C0] translate-y-1 group-hover:translate-y-0"
-                                }`}>
+                                    }`}>
                                     {sectionLabels[i]}
                                 </span>
                             </button>
@@ -177,7 +237,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             </nav>
 
             <main className="relative z-20 mx-auto px-12 md:px-24 pt-32 pb-48 w-full">
-                
+
                 {/* HERO SECTION */}
                 <section id="section-hero" className="h-[90vh] flex flex-col items-center justify-center relative">
                     <motion.div className="flex flex-col items-center relative z-20">
@@ -195,10 +255,18 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     </motion.div>
 
                     <motion.div style={{ y: ySlow }} className="absolute -bottom-32 left-0 rotate-[-8deg] opacity-70 blur-[2px] hidden md:block z-0 pointer-events-none">
-                        <ScrapCard width={400} height={300} />
+                        <ScrapCard width={400} height={300} content={
+                            <div className="absolute inset-0 overflow-hidden">
+                                <img src="/images/uefa-champions-league.jpg" alt="UEFA Champions League" className="w-full h-full object-cover" />
+                            </div>
+                        } />
                     </motion.div>
                     <motion.div style={{ y: yFast }} className="absolute -bottom-16 right-10 rotate-[12deg] z-30 hidden md:block">
-                        <ScrapCard width={350} height={250} />
+                        <ScrapCard width={350} height={250} content={
+                            <div className="absolute inset-0 overflow-hidden">
+                                <img src="/images/uefa-champions-league.jpg" alt="UEFA Champions League" className="w-full h-full object-cover" />
+                            </div>
+                        } />
                     </motion.div>
                 </section>
 
@@ -226,7 +294,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                     <p className="text-[#A0B0C0] font-sans text-xl leading-relaxed max-w-xl">
                                         {chapter.body}
                                     </p>
-                                    
+
                                     {chapter.stat && (
                                         <div className="pt-8">
                                             <p className="text-6xl sm:text-7xl font-bold text-[#C54B3E] tracking-tighter">{chapter.stat.value}</p>
@@ -249,7 +317,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                         </div>
                                     )}
                                 </div>
-                                
+
                                 <div className="flex-1 relative min-h-[400px] w-full flex items-center justify-center">
                                     {chapter.scrapCards ? (
                                         chapter.scrapCards.map((card, i) => (
@@ -271,12 +339,12 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 {/* CLOSING SECTION */}
                 <section id="section-closing" className="relative mt-[30vh] min-h-screen flex flex-col items-center justify-center w-full max-w-4xl mx-auto text-center z-30">
                     <h3 className="text-3xl font-mono text-[#C54B3E] mb-12 italic">"The Insight"</h3>
-                    
+
                     <div className="relative">
-                        <ScrapCard 
-                            width={650} 
-                            height={400} 
-                            rotation={-2} 
+                        <ScrapCard
+                            width={650}
+                            height={400}
+                            rotation={-2}
                             className="bg-white/95 backdrop-blur shadow-2xl"
                             content={
                                 <div className="flex flex-col items-center justify-center h-full text-gray-800 p-8 text-center space-y-8">
@@ -285,8 +353,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                     </p>
 
                                     {project.story.closing.cta && project.story.closing.ctaHref && (
-                                        <Link 
-                                            href={project.story.closing.ctaHref} 
+                                        <Link
+                                            href={project.story.closing.ctaHref}
                                             className="interactive inline-flex items-center gap-3 px-8 py-4 bg-[#C54B3E] text-white rounded-full font-sans font-semibold tracking-wide hover:bg-black transition-colors"
                                         >
                                             <FileText className="w-5 h-5" />
