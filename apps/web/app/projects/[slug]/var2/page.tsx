@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, use } from "react";
 import dynamic from "next/dynamic";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -12,16 +12,49 @@ import { Button } from "@workspace/ui/components/button";
 const PDFDocument = dynamic(() => import("react-pdf").then((mod) => mod.Document), { ssr: false });
 const PDFPage = dynamic(() => import("react-pdf").then((mod) => mod.Page), { ssr: false });
 
-const SECTIONS = [
-    { label: "Background", start: 1, end: 3 },
-    { label: "System Analysis", start: 4, end: 5 },
-    { label: "Data Normalization", start: 6, end: 10 },
-    { label: "DB Design", start: 11, end: 15 },
-    { label: "Insights & Recs", start: 16, end: 31 },
-    { label: "Conclusion", start: 32, end: 33 },
-];
+const PROJECT_CONFIGS: Record<string, {
+    pdfPath: string;
+    sections: { label: string; start: number; end: number }[];
+}> = {
+    "football-sponsorship-analytics": {
+        pdfPath: "/pdf/Project%201.pdf",
+        sections: [
+            { label: "Background", start: 1, end: 3 },
+            { label: "System Analysis", start: 4, end: 5 },
+            { label: "Data Normalization", start: 6, end: 10 },
+            { label: "DB Design", start: 11, end: 15 },
+            { label: "Insights & Recs", start: 16, end: 31 },
+            { label: "Conclusion", start: 32, end: 33 },
+        ],
+    },
+    "loan-default-prediction": {
+        pdfPath: "/pdf/Project%202.pdf",
+        sections: [
+            { label: "The Gap", start: 1, end: 4 },
+            { label: "The Data", start: 5, end: 9 },
+            { label: "Methods", start: 10, end: 15 },
+            { label: "Results", start: 16, end: 22 },
+            { label: "Impact", start: 23, end: 28 },
+            { label: "Conclusion", start: 29, end: 33 },
+        ],
+    },
+};
 
-export default function Variant2Page() {
+const DEFAULT_CONFIG = {
+    pdfPath: "/pdf/Project%201.pdf",
+    sections: [
+        { label: "Introduction", start: 1, end: 5 },
+        { label: "Analysis", start: 6, end: 15 },
+        { label: "Results", start: 16, end: 25 },
+        { label: "Conclusion", start: 26, end: 33 },
+    ],
+};
+
+export default function Variant2Page({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = use(params);
+    const config = PROJECT_CONFIGS[slug] ?? DEFAULT_CONFIG;
+    const SECTIONS = config.sections;
+
     const [numPages, setNumPages] = useState<number>();
     const [width, setWidth] = useState<number>(1000);
     const [activePage, setActivePage] = useState(1);
@@ -29,7 +62,7 @@ export default function Variant2Page() {
 
     const activeSection = useMemo(() => {
         return SECTIONS.findIndex(s => activePage >= s.start && activePage <= s.end);
-    }, [activePage]);
+    }, [activePage, SECTIONS]);
 
     useEffect(() => {
         import("react-pdf").then((mod) => {
@@ -58,7 +91,6 @@ export default function Variant2Page() {
     const goNext = useCallback(() => goTo(activePage + 1), [goTo, activePage]);
     const goPrev = useCallback(() => goTo(activePage - 1), [goTo, activePage]);
 
-    // Keyboard navigation
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
@@ -114,7 +146,7 @@ export default function Variant2Page() {
                     <Link href="/"><Home className="w-4 h-4" /></Link>
                 </Button>
                 <div className="bg-[#1a1a1a]/80 backdrop-blur-xl px-4 py-1.5 rounded-full border border-white/10 shadow-lg text-sm font-medium pointer-events-auto text-[#A0B0C0]">
-                    {activeSection >= 0 ? SECTIONS[activeSection].label : "..."} • Slide {activePage} of {numPages || "..."}
+                    {activeSection >= 0 ? SECTIONS[activeSection]?.label : "..."} • Slide {activePage} of {numPages || "..."}
                 </div>
             </nav>
 
@@ -138,7 +170,7 @@ export default function Variant2Page() {
                 </>
             )}
 
-            {/* Section Stepper - Connected Circles */}
+            {/* Section Stepper */}
             {numPages && (
                 <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 pointer-events-auto">
                     <div className="relative flex items-center bg-black/70 backdrop-blur-xl rounded-full px-6 py-3 border border-white/10 shadow-2xl shadow-black/50">
@@ -166,7 +198,6 @@ export default function Variant2Page() {
                                     style={{ width: '56px' }}
                                     title={`${section.label} (Slides ${section.start}–${section.end})`}
                                 >
-                                    {/* Plain circle */}
                                     <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
                                         isCurrent
                                             ? "bg-[#C54B3E] border-[#C54B3E] scale-125 shadow-[0_0_12px_rgba(197,75,62,0.5)]"
@@ -179,7 +210,6 @@ export default function Variant2Page() {
                                         )}
                                     </div>
 
-                                    {/* Section label — bold & visible when active */}
                                     <span className={`absolute top-8 whitespace-nowrap text-[10px] font-mono uppercase tracking-wider transition-all duration-300 ${
                                         isCurrent
                                             ? "opacity-100 text-[#C54B3E] font-bold translate-y-0"
@@ -196,7 +226,7 @@ export default function Variant2Page() {
 
             {/* PDF Viewer */}
             <PDFDocument
-                file="/pdf/Project%201.pdf"
+                file={config.pdfPath}
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={
                     <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 text-[#A0B0C0] z-20">
