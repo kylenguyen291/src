@@ -7,7 +7,6 @@ import { Home, FileText } from "lucide-react";
 import Link from "next/link";
 import { projects } from "../../../lib/projects";
 import { CustomCursor } from "../../../components/scrapbook/CustomCursor";
-import { CursorGlow } from "../../../components/scrapbook/CursorGlow";
 import { ScrapCard } from "../../../components/scrapbook/ScrapCard";
 import { LiveSVG } from "../../../components/scrapbook/LiveSVG";
 
@@ -113,7 +112,6 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             ref={containerRef}
         >
             <CustomCursor />
-            <CursorGlow />
 
             {/* Global Noise Grain Overlay */}
             <div className="fixed inset-0 z-50 pointer-events-none opacity-[0.05] mix-blend-overlay"

@@ -11,38 +11,13 @@ import { motion, AnimatePresence, useSpring } from "framer-motion";
 
 
 
-function CursorGlow() {
-    const glowRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const onMove = (e: MouseEvent) => {
-            if (!glowRef.current) return;
-            glowRef.current.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
-        };
-        window.addEventListener("mousemove", onMove);
-        return () => window.removeEventListener("mousemove", onMove);
-    }, []);
-
-    return (
-        <div
-            ref={glowRef}
-            className="fixed top-0 left-0 w-[400px] h-[400px] pointer-events-none z-[5] rounded-full"
-            style={{
-                background: "radial-gradient(circle, rgba(14,86,250,0.13) 0%, rgba(14,86,250,0.05) 40%, transparent 70%)",
-                willChange: "transform",
-                transition: "transform 0.08s linear",
-            }}
-        />
-    );
-}
 
 export default function DeskHubPage() {
     const [curtainOpen, setCurtainOpen] = useState(false);
 
     return (
-        <div className="relative min-h-[100vh] w-full bg-[#0A0F1E] text-[#F9F6F0] selection:bg-[#0E56FA]/30 selection:text-white font-sans overflow-hidden cursor-none flex flex-col">
+        <div className="relative min-h-[100vh] w-full text-[#F9F6F0] selection:bg-[#0E56FA]/30 selection:text-white font-sans overflow-hidden cursor-none flex flex-col" style={{ background: "radial-gradient(ellipse at 50% 0%, #0D1F4A 0%, #060810 60%)" }}>
             <CustomCursor />
-            <CursorGlow />
 
             {/* CURTAIN */}
             <AnimatePresence>
@@ -283,12 +258,6 @@ export default function DeskHubPage() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="flex flex-col items-center text-center gap-6 border-b border-[#A0B0C0]/20 pb-12"
                 >
-                    <p className="font-mono text-[#0E56FA] text-xs uppercase tracking-[0.3em]">
-                        Portfolio · Data Analytics · Product Management
-                    </p>
-                    <p className="font-mono text-[#A0B0C0]/60 text-[10px] uppercase tracking-[0.25em]">
-                        Presented by <span className="text-[#F9F6F0]/70">Nguyen Duc Phi Long</span>
-                    </p>
                     <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-[#F9F6F0] leading-[0.9] whitespace-nowrap">
                         The Desk.
                     </h1>
@@ -299,37 +268,6 @@ export default function DeskHubPage() {
                         transition={{ duration: 0.9, delay: 0.6, ease: "easeOut" }}
                         className="relative max-w-2xl w-full mt-4 overflow-hidden rounded-sm"
                     >
-                        {/* Animated border */}
-                        <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
-                            className="absolute top-0 left-0 right-0 h-[1px] bg-[#0E56FA]/50 origin-left"
-                        />
-                        <motion.div
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 0.8, delay: 1.1, ease: "easeOut" }}
-                            className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#0E56FA]/50 origin-right"
-                        />
-                        <motion.div
-                            initial={{ scaleY: 0 }}
-                            animate={{ scaleY: 1 }}
-                            transition={{ duration: 0.6, delay: 1.3, ease: "easeOut" }}
-                            className="absolute top-0 left-0 bottom-0 w-[1px] bg-[#0E56FA]/30 origin-top"
-                        />
-                        <motion.div
-                            initial={{ scaleY: 0 }}
-                            animate={{ scaleY: 1 }}
-                            transition={{ duration: 0.6, delay: 1.3, ease: "easeOut" }}
-                            className="absolute top-0 right-0 bottom-0 w-[1px] bg-[#0E56FA]/30 origin-bottom"
-                        />
-
-                        {/* Corner accents */}
-                        <div className="absolute -top-[2px] -left-[2px] w-2 h-2 border-t-2 border-l-2 border-[#0E56FA]" />
-                        <div className="absolute -top-[2px] -right-[2px] w-2 h-2 border-t-2 border-r-2 border-[#0E56FA]" />
-                        <div className="absolute -bottom-[2px] -left-[2px] w-2 h-2 border-b-2 border-l-2 border-[#0E56FA]" />
-                        <div className="absolute -bottom-[2px] -right-[2px] w-2 h-2 border-b-2 border-r-2 border-[#0E56FA]" />
 
                         {/* Shine sweep */}
                         <motion.div
@@ -370,7 +308,7 @@ export default function DeskHubPage() {
                                         backgroundPosition: "0 100%",
                                     }}
                                 >
-                                    product management
+                                    Product Management
                                 </motion.span>
                                 {" "}and{" "}
                                 <motion.span
@@ -384,7 +322,7 @@ export default function DeskHubPage() {
                                         backgroundPosition: "0 100%",
                                     }}
                                 >
-                                    data analytics
+                                    Data Analytics
                                 </motion.span>
                                 .
                             </motion.p>
@@ -407,7 +345,7 @@ export default function DeskHubPage() {
                                         backgroundPosition: "0 100%",
                                     }}
                                 >
-                                    sports
+                                    Sports
                                 </motion.span>
                                 {" "}and{" "}
                                 <motion.span
@@ -421,39 +359,11 @@ export default function DeskHubPage() {
                                         backgroundPosition: "0 100%",
                                     }}
                                 >
-                                    finance
+                                    Finance
                                 </motion.span>
                                 {" "}— among many. And those passions find their way into everything I build.
                             </motion.p>
 
-                            <motion.div
-                                initial={{ opacity: 0, y: 6 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 2.2 }}
-                                className="flex items-center justify-center gap-3 pt-1"
-                            >
-                                {/* Left line */}
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    animate={{ scaleX: 1 }}
-                                    transition={{ duration: 0.6, delay: 2.5, ease: "easeOut" }}
-                                    className="h-[1px] w-10 bg-[#0E56FA]/40 origin-right"
-                                />
-                                <motion.p
-                                    animate={{ opacity: [0.5, 1, 0.5] }}
-                                    transition={{ duration: 3, delay: 3.2, repeat: Infinity, ease: "easeInOut" }}
-                                    className="text-[#F9F6F0]/70 font-mono text-xs font-bold uppercase tracking-[0.2em]"
-                                >
-                                    Here are the projects I've built so far — still building more, and more to come.
-                                </motion.p>
-                                {/* Right line */}
-                                <motion.div
-                                    initial={{ scaleX: 0 }}
-                                    animate={{ scaleX: 1 }}
-                                    transition={{ duration: 0.6, delay: 2.5, ease: "easeOut" }}
-                                    className="h-[1px] w-10 bg-[#0E56FA]/40 origin-left"
-                                />
-                            </motion.div>
                         </div>
                     </motion.div>
                 </motion.div>
