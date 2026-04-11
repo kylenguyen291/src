@@ -103,7 +103,7 @@ export default function Variant3Page() {
             onClick={() => handleUserActivity()}
         >
             <Document
-                file="/pdf/presentation.pdf"
+                file="/pdf/Project%201.pdf"
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={
                     <div className="flex flex-col items-center justify-center h-full gap-4 text-zinc-500">

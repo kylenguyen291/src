@@ -73,7 +73,7 @@ export default function Variant2Page() {
             </nav>
 
             <Document
-                file="/pdf/presentation.pdf"
+                file="/pdf/Project%201.pdf"
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={
                     <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 text-zinc-500">
