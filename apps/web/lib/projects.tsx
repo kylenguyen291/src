@@ -5,6 +5,7 @@ export interface ScrapCardConfig {
   width?: number;
   height?: number;
   content?: React.ReactNode;
+  offsetY?: number;
 }
 
 export interface Chapter {
@@ -192,6 +193,7 @@ export const projects: Project[] = [
               width: 380,
               height: 260,
               rotation: 5,
+              offsetY: -350,
               content: (
                 <div className="absolute inset-0 overflow-hidden">
                   <img src="/images/mesut-ozil.avif" alt="Mesut Ozil" className="w-full h-full object-cover" />
@@ -228,6 +230,7 @@ export const projects: Project[] = [
               width: 400,
               height: 280,
               rotation: -5,
+              offsetY: -400,
               content: (
                 <div className="absolute inset-0 overflow-hidden">
                   <img src="/images/champion.jpg" alt="Champion" className="w-full h-full object-cover" />
@@ -303,6 +306,7 @@ export const projects: Project[] = [
               width: 400,
               height: 280,
               rotation: -5,
+              offsetY: -350,
               content: (
                 <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 to-rose-700/30 p-5 font-mono overflow-hidden">
                   <div className="text-xs leading-tight">
@@ -356,6 +360,7 @@ export const projects: Project[] = [
               width: 360,
               height: 240,
               rotation: 7,
+              offsetY: -320,
               content: (
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-teal-700/30 p-4 font-mono overflow-hidden">
                   <div className="text-xs leading-tight">
@@ -401,6 +406,7 @@ export const projects: Project[] = [
               width: 380,
               height: 260,
               rotation: -4,
+              offsetY: -450,
               content: (
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-indigo-700/30 p-5 font-mono overflow-hidden">
                   <div className="text-xs leading-tight">
@@ -461,6 +467,7 @@ export const projects: Project[] = [
               width: 400,
               height: 290,
               rotation: 5,
+              offsetY: -400,
               content: (
                 <div className="absolute inset-0 bg-gradient-to-br from-violet-900/20 to-purple-700/30 p-4 font-mono overflow-hidden">
                   <div className="text-xs leading-tight">
@@ -524,6 +531,7 @@ export const projects: Project[] = [
               width: 400,
               height: 280,
               rotation: -6,
+              offsetY: -450,
               content: (
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-900/20 to-yellow-700/30 p-5 font-mono overflow-hidden">
                   <div className="text-xs leading-tight">

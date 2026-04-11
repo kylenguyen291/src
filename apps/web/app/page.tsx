@@ -244,24 +244,41 @@ export default function DeskHubPage() {
                                 className="bg-white"
                                 delay={i * 0.15}
                                 content={
-                                    <div className="flex flex-col h-full bg-white relative overflow-hidden">
+                                    <div className={`flex flex-col h-full relative overflow-hidden ${p.slug === "football-sponsorship-analytics" ? "bg-transparent" : "bg-white"}`}>
                                         {/* Accent bar */}
                                         <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ backgroundColor: p.card.accent }} />
                                         {/* Tape strip */}
                                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-14 h-4 bg-yellow-100/80 z-10" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)' }} />
-                                        <div className="pl-6 pr-5 pt-6 pb-5 flex flex-col h-full">
-                                            <p className="font-mono text-[10px] uppercase tracking-widest text-[#A0B0C0] mb-3">
+
+                                        {/* Project image */}
+                                        {(p.slug === "football-sponsorship-analytics" || p.slug === "loan-default-prediction") && (
+                                            <div className="absolute inset-0 z-0">
+                                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                <img
+                                                    src={p.slug === "football-sponsorship-analytics" ? "/images/uefa-champions-league.jpg" : "/images/banking-background.png"}
+                                                    alt=""
+                                                    className="w-full h-full object-cover"
+                                                    style={{ objectPosition: "center center" }}
+                                                />
+                                                {p.slug === "football-sponsorship-analytics" && (
+                                                    <div className="absolute inset-0 bg-black/30" />
+                                                )}
+                                            </div>
+                                        )}
+
+                                        <div className="pl-6 pr-5 pt-6 pb-5 flex flex-col h-full relative z-10">
+                                            <p className={`font-mono text-[10px] uppercase tracking-widest mb-3 font-bold ${p.slug === "football-sponsorship-analytics" ? "text-white/70" : "text-[#A0B0C0]"}`}>
                                                 {p.date}
                                             </p>
-                                            <h2 className="text-xl font-bold text-gray-900 leading-tight mb-3">
+                                            <h2 className={`text-xl font-black leading-tight mb-3 drop-shadow-sm ${p.slug === "football-sponsorship-analytics" ? "text-white" : "text-gray-900"}`}>
                                                 {p.title}
                                             </h2>
-                                            <p className="text-gray-500 text-sm leading-relaxed font-sans mb-4">
+                                            <p className={`text-sm leading-relaxed font-sans font-semibold mb-4 ${p.slug === "football-sponsorship-analytics" ? "text-white/80" : "text-gray-700"}`}>
                                                 {p.subtitle}
                                             </p>
                                             <div className="mt-auto flex flex-wrap gap-1.5">
                                                 {p.tags.slice(0, 3).map(tag => (
-                                                    <span key={tag} className="text-[10px] px-2 py-0.5 rounded font-mono border border-gray-200 text-gray-500">
+                                                    <span key={tag} className={`text-[10px] px-2 py-0.5 rounded font-mono border font-bold ${p.slug === "football-sponsorship-analytics" ? "border-white/40 text-white/80" : "border-gray-400 text-gray-700"}`}>
                                                         {tag}
                                                     </span>
                                                 ))}

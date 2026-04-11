@@ -351,7 +351,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                 <div className="flex-1 relative min-h-[400px] w-full flex items-center justify-center">
                                     {chapter.scrapCards ? (
                                         chapter.scrapCards.map((card, i) => (
-                                            <motion.div key={i} style={{ y: i % 2 === 0 ? ySlow : yFast }} className="absolute z-10">
+                                            <motion.div key={i} style={{ y: i % 2 === 0 ? ySlow : yFast, marginTop: card.offsetY ?? 0 }} className="absolute z-10">
                                                 <ScrapCard width={card.width} height={card.height} rotation={card.rotation} content={card.content} />
                                             </motion.div>
                                         ))
