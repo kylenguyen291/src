@@ -214,7 +214,41 @@ export default function DeskHubPage() {
             </header>
 
             {/* CASE FILES SECTION */}
-            <main className="relative z-20 flex-1 w-full max-w-7xl mx-auto px-8 md:px-24 pt-20 pb-24">
+            <main className="relative z-20 flex-1 w-full max-w-7xl mx-auto px-8 md:px-24 pt-16 pb-24">
+
+                {/* Section prompt */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.7 }}
+                    className="flex flex-col items-center text-center mb-16 gap-5"
+                >
+                    <div className="flex items-center gap-4 w-full max-w-2xl">
+                        <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#C54B3E]/40" />
+                        <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[#C54B3E]/60">Select a case</span>
+                        <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#C54B3E]/40" />
+                    </div>
+
+                    <h2 className="text-4xl md:text-5xl font-black text-[#F9F6F0] leading-tight tracking-tight">
+                        Two questions.<br />
+                        <span className="text-[#C54B3E]">Which one pulls you in?</span>
+                    </h2>
+
+                    <p className="text-[#A0B0C0] font-sans text-sm max-w-lg leading-relaxed">
+                        Each case file is a real problem — a dataset, a hypothesis, and a deep dive into the numbers.
+                        Pick the one that speaks to you.
+                    </p>
+
+                    <motion.div
+                        animate={{ y: [0, 6, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className="text-[#C54B3E]/50 font-mono text-xs tracking-widest flex items-center gap-2"
+                    >
+                        <span className="w-4 h-[1px] bg-[#C54B3E]/40" />
+                        scroll down
+                        <span className="w-4 h-[1px] bg-[#C54B3E]/40" />
+                    </motion.div>
+                </motion.div>
 
                 <div className="flex flex-wrap items-end justify-center gap-20">
                     {projects.map((p, i) => (
@@ -288,12 +322,11 @@ export default function DeskHubPage() {
                                 }
                             />
 
-                            {/* Kick off button */}
                             <Link
                                 href={`/projects/${p.slug}`}
                                 className="mt-5 interactive inline-flex items-center gap-2 px-7 py-3 bg-[#C54B3E] text-[#F9F6F0] text-xs font-mono uppercase tracking-[0.2em] rounded-sm border border-[#C54B3E] hover:bg-transparent hover:text-[#C54B3E] transition-all duration-300 shadow-lg shadow-[#C54B3E]/20 hover:shadow-none"
                             >
-                                Kick off
+                                Open Case File
                                 <ArrowRight className="w-3.5 h-3.5" />
                             </Link>
                         </motion.div>
