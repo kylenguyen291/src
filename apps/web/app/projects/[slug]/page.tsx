@@ -340,7 +340,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                                 paths={chapter.annotation.svg}
                                             />
                                             {chapter.annotation.label && (
-                                                <span className="absolute -bottom-4 text-[#C54B3E] whitespace-nowrap rotate-6 text-xl font-medium" style={{ fontFamily: 'cursive' }}>
+                                                <span className="absolute -bottom-16 left-1 text-[#F9F6F0] whitespace-nowrap rotate-6 text-lg font-medium" style={{ fontFamily: 'cursive' }}>
                                                     {chapter.annotation.label}
                                                 </span>
                                             )}
@@ -425,40 +425,68 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     </section>
                 )}
 
-                {/* CLOSING SECTION */}
-                <section id="section-closing" className="relative mt-[30vh] min-h-screen flex flex-col items-center justify-center w-full max-w-4xl mx-auto text-center z-30">
-                    <h3 className="text-3xl font-mono text-[#C54B3E] mb-12 italic">"The Insight"</h3>
+                {/* CLOSING SECTION - THE INSIGHT */}
+                <section id="section-closing" className="relative mt-[2vh] w-full px-6 md:px-12 z-30">
+                    {/* Section Header */}
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm font-mono text-[#C54B3E] uppercase tracking-[0.3em] mb-4">Final Thoughts</h2>
+                        <h3 className="text-4xl md:text-6xl font-medium text-[#F9F6F0] tracking-tight">The Insight</h3>
+                    </div>
 
-                    <div className="relative">
-                        <ScrapCard
-                            width={650}
-                            height={400}
-                            rotation={-2}
-                            className="bg-white/95 backdrop-blur shadow-2xl"
-                            content={
-                                <div className="flex flex-col items-center justify-center h-full text-gray-800 p-8 text-center space-y-8">
-                                    <p className="text-xl md:text-2xl leading-relaxed font-serif">
-                                        {project.story.closing.insight}
-                                    </p>
+                    {/* Main Content Container */}
+                    <div className="max-w-6xl mx-auto">
+                        <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] rounded-3xl p-8 md:p-12 overflow-hidden shadow-2xl shadow-black/20 transform -rotate-3 hover:rotate-0 transition-all duration-700 ease-out cursor-pointer" style={{
+                            background: `linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%)`,
+                            boxShadow: `
+                                0 8px 32px rgba(0, 0, 0, 0.25),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                                inset 0 -1px 0 rgba(255, 255, 255, 0.05)
+                            `
+                        }}>
+                            {/* Background Pattern */}
+                            <div className="absolute inset-0 opacity-5">
+                                <div className="absolute inset-0" style={{ 
+                                    backgroundImage: `linear-gradient(45deg, #C54B3E 1px, transparent 1px), linear-gradient(-45deg, #C54B3E 1px, transparent 1px)`, 
+                                    backgroundSize: '20px 20px' 
+                                }} />
+                            </div>
 
-                                    {project.story.closing.cta && project.story.closing.ctaHref && (
+                            {/* Content */}
+                            <div className="relative z-10 text-center space-y-8">
+                                <div className="w-16 h-[2px] bg-[#C54B3E] mx-auto mb-8" />
+                                
+                                <p className="text-2xl md:text-3xl leading-relaxed font-serif text-[#F9F6F0] max-w-4xl mx-auto italic">
+                                    "{project.story.closing.insight}"
+                                </p>
+
+                                {project.story.closing.cta && project.story.closing.ctaHref && (
+                                    <div className="pt-8">
                                         <Link
                                             href={project.story.closing.ctaHref}
-                                            className="interactive inline-flex items-center gap-3 px-8 py-4 bg-[#C54B3E] text-white rounded-full font-sans font-semibold tracking-wide hover:bg-black transition-colors"
+                                            className="interactive inline-flex items-center gap-3 px-8 py-4 bg-[#C54B3E] text-white rounded-full font-sans font-semibold tracking-wide hover:bg-white hover:text-[#C54B3E] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                                         >
                                             <FileText className="w-5 h-5" />
                                             {project.story.closing.cta}
                                         </Link>
-                                    )}
-                                </div>
-                            }
-                        />
-                        <LiveSVG
-                            className="absolute -right-12 bottom-0 w-32 h-32"
-                            viewBox="0 0 100 100"
-                            paths={["M 20 80 Q 50 100 80 80 T 90 20"]}
-                            delay={1}
-                        />
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Decorative Elements */}
+                            <div className="absolute top-4 right-4 w-2 h-2 bg-[#C54B3E] rounded-full opacity-60" />
+                            <div className="absolute bottom-6 left-6 w-1 h-1 bg-[#C54B3E] rounded-full opacity-40" />
+                            <div className="absolute top-1/2 left-4 w-1.5 h-1.5 bg-[#C54B3E] rounded-full opacity-30" />
+                        </div>
+
+                        {/* Bottom Decorative SVG */}
+                        <div className="flex justify-center mt-12">
+                            <LiveSVG
+                                className="w-40 h-16 opacity-40"
+                                viewBox="0 0 160 40"
+                                paths={["M 20 20 Q 80 40 140 20"]}
+                                delay={1}
+                            />
+                        </div>
                     </div>
                 </section>
 
