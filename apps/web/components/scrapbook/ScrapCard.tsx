@@ -15,11 +15,11 @@ interface ScrapCardProps {
     href?: string;
 }
 
-export function ScrapCard({ 
-    rotation = 0, 
-    width = 600, 
-    height = 400, 
-    className = "", 
+export function ScrapCard({
+    rotation = 0,
+    width = 600,
+    height = 400,
+    className = "",
     delay = 0,
     onClick,
     content,
@@ -66,24 +66,6 @@ export function ScrapCard({
                 )}
             </div>
 
-            {/* Find out more button */}
-            <motion.button
-                onClick={handleClick}
-                className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-auto px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transform transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ 
-                    opacity: isHovered ? 1 : 0.8, 
-                    y: isHovered ? 0 : 20,
-                    scale: isHovered ? 1.05 : 1
-                }}
-                whileHover={{ 
-                    scale: 1.1,
-                    boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)"
-                }}
-                whileTap={{ scale: 0.95 }}
-            >
-                Find out more here
-            </motion.button>
         </motion.div>
     );
 }

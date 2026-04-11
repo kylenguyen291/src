@@ -33,7 +33,7 @@ export default function DeskHubPage() {
             </header>
 
             {/* THE DESK - Scatter Area */}
-            <main className="relative z-20 flex-1 w-full max-w-7xl mx-auto px-12 md:px-24 pb-32 flex flex-wrap items-center justify-center gap-12 min-h-[60vh]">
+            <main className="relative z-20 flex-1 w-full max-w-7xl mx-auto px-12 md:px-24 pb-0 flex flex-wrap items-center justify-center gap-12 min-h-[60vh]">
                 {projects.map((p, i) => (
                     <div key={p.slug} className="relative transition-transform duration-500 hover:z-50" style={{ zIndex: 10 + i }}>
                         <ScrapCard
@@ -68,6 +68,17 @@ export default function DeskHubPage() {
                     </div>
                 ))}
             </main>
+
+            {/* Kick off button */}
+            <div className="relative z-20 flex justify-center pt-4 pb-16">
+                <Link
+                    href="/projects/football-sponsorship-analytics"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#C54B3E] text-[#F9F6F0] text-sm font-mono uppercase tracking-widest rounded-sm hover:bg-[#D45A4D] transition-colors duration-300 shadow-lg shadow-[#C54B3E]/20 hover:shadow-[#C54B3E]/40"
+                >
+                    Kick off
+                    <ArrowRight className="w-4 h-4" />
+                </Link>
+            </div>
 
             <footer className="relative z-20 border-t border-[#A0B0C0]/20 pt-8 pb-12 text-center text-[#A0B0C0] font-mono text-xs uppercase tracking-widest">
                 <p>© {new Date().getFullYear()} · Select a case file to begin</p>

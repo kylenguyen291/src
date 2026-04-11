@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+import dynamic from "next/dynamic";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,7 +9,8 @@ import { ChevronLeft, ChevronRight, Home, Loader2, Maximize2, Minimize2 } from "
 import Link from "next/link";
 import { Button } from "@workspace/ui/components/button";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.mjs`;
+const PDFDocument = dynamic(() => import("react-pdf").then((mod) => mod.Document), { ssr: false });
+const PDFPage = dynamic(() => import("react-pdf").then((mod) => mod.Page), { ssr: false });
 
 export default function Variant1Page() {
     const [numPages, setNumPages] = useState<number>();
@@ -17,6 +18,12 @@ export default function Variant1Page() {
     const [direction, setDirection] = useState<number>(0);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        import("react-pdf").then((mod) => {
+            mod.pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${mod.pdfjs.version}/legacy/build/pdf.worker.min.mjs`;
+        });
+    }, []);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -84,8 +91,8 @@ export default function Variant1Page() {
 
     return (
         <div className="flex flex-col h-svh w-screen bg-zinc-950 text-white overflow-hidden selection:bg-primary/30" ref={containerRef}>
-            <Document
-                file="/pdf/presentation.pdf"
+            <PDFDocument
+                file="/pdf/Project%201.pdf"
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={
                     <div className="flex flex-col items-center justify-center h-full gap-4 text-zinc-400">
@@ -143,7 +150,7 @@ export default function Variant1Page() {
                                     }}
                                     className="absolute inset-0 shadow-2xl shadow-black/50 rounded-xl overflow-hidden ring-1 ring-white/10 bg-white flex items-center justify-center"
                                 >
-                                    <Page
+                                    <PDFPage
                                         pageNumber={pageNumber}
                                         width={containerRef.current ? Math.min(containerRef.current.clientWidth - 64, 1200) : 800}
                                         className="flex justify-center items-center w-full h-full"
@@ -195,7 +202,7 @@ export default function Variant1Page() {
                                         }
                   `}
                                 >
-                                    <Page
+                                    <PDFPage
                                         pageNumber={index + 1}
                                         height={100}
                                         renderTextLayer={false}
@@ -210,7 +217,7 @@ export default function Variant1Page() {
                         </div>
                     </footer>
                 )}
-            </Document>
+            </PDFDocument>
         </div>
     );
 }
