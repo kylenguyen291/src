@@ -275,9 +275,19 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     <p className="text-3xl md:text-4xl text-[#F9F6F0] leading-relaxed mb-12">
                         {project.story.opening.hook}
                     </p>
-                    <p className="text-[#A0B0C0] font-mono text-xl md:text-2xl italic">
+                    <p className="text-[#A0B0C0] font-mono text-xl md:text-2xl italic mb-16">
                         "{project.story.opening.bigQuestion}"
                     </p>
+
+                    {project.story.opening.highlights && (
+                        <div className="flex flex-wrap justify-center gap-4">
+                            {project.story.opening.highlights.map((highlight, i) => (
+                                <div key={i} className="px-4 py-2 bg-white/5 border border-white/10 rounded-full">
+                                    <span className="text-[#A0B0C0] font-mono text-xs uppercase tracking-widest">{highlight}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </section>
 
                 {/* CHAPTERS */}
@@ -294,6 +304,17 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                     <p className="text-[#A0B0C0] font-sans text-xl leading-relaxed max-w-xl">
                                         {chapter.body}
                                     </p>
+
+                                    {chapter.highlights && (
+                                        <ul className="space-y-3 pt-4">
+                                            {chapter.highlights.map((highlight, i) => (
+                                                <li key={i} className="flex items-start gap-3">
+                                                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#C54B3E] shrink-0" />
+                                                    <span className="text-[#A0B0C0] font-mono text-sm leading-relaxed">{highlight}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
 
                                     {chapter.stat && (
                                         <div className="pt-8">
@@ -335,6 +356,65 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                         );
                     })}
                 </div>
+
+                {/* TECHNICAL DEPICTION */}
+                {project.story.depiction && (
+                    <section className="mt-[30vh] max-w-6xl mx-auto px-6 relative z-20">
+                        <div className="grid md:grid-cols-2 gap-16 items-center">
+                            <div>
+                                <h2 className="text-sm font-mono text-[#C54B3E] uppercase tracking-[0.3em] mb-4">Technical Breakdown</h2>
+                                <h3 className="text-4xl md:text-5xl font-medium mb-8 uppercase tracking-tight">{project.story.depiction.title}</h3>
+                                <p className="text-[#A0B0C0] text-xl leading-relaxed mb-10">
+                                    {project.story.depiction.body}
+                                </p>
+                                <div className="space-y-6">
+                                    {project.story.depiction.highlights.map((h, i) => (
+                                        <div key={i} className="flex flex-col border-l-2 border-[#C54B3E]/30 pl-6 py-2">
+                                            <span className="text-[#F9F6F0] font-mono text-lg">{h.split(' — ')[0]}</span>
+                                            {h.includes(' — ') && (
+                                                <span className="text-[#A0B0C0] text-sm uppercase tracking-wider mt-1">{h.split(' — ')[1]}</span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="relative aspect-square md:aspect-auto md:h-[600px] flex items-center justify-center">
+                                <LiveSVG 
+                                    className="absolute inset-0 opacity-20"
+                                    viewBox="0 0 400 400"
+                                    paths={[
+                                        "M 50 50 L 350 50 L 350 350 L 50 350 Z",
+                                        "M 100 100 L 300 100 M 100 150 L 300 150 M 100 200 L 300 200",
+                                        "M 200 50 L 200 350"
+                                    ]}
+                                />
+                                <div className="relative transform rotate-3 scale-110">
+                                    <ScrapCard 
+                                        width={450} 
+                                        height={320} 
+                                        rotation={-4}
+                                        content={
+                                            <div className="absolute inset-0 bg-[#0f0f0f] p-8 font-mono text-xs text-green-500/80 leading-relaxed overflow-hidden">
+                                                <div className="space-y-1">
+                                                    <p>IMPORT football_raw.csv AS raw_data</p>
+                                                    <p>VALIDATE raw_data.game_id NOT NULL</p>
+                                                    <p>MAP raw_data TO football_core.schema</p>
+                                                    <p className="text-white/30 italic mt-4">-- Normalization Layer --</p>
+                                                    <p>UPDATE football_core SET value_index = (involvement * 0.7) + (predictability * 0.3)</p>
+                                                    <p>WHERE season BETWEEN 2014 AND 2020</p>
+                                                    <p className="mt-4">SUCCESS: 726,000+ rows migrated.</p>
+                                                    <div className="mt-8 h-32 w-full bg-green-500/10 rounded flex items-center justify-center border border-green-500/20">
+                                                        [DATA_CORE_STRUCT_READY]
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                )}
 
                 {/* CLOSING SECTION */}
                 <section id="section-closing" className="relative mt-[30vh] min-h-screen flex flex-col items-center justify-center w-full max-w-4xl mx-auto text-center z-30">
