@@ -2,10 +2,9 @@
 
 import { useEffect, useRef, useState, use, useCallback } from "react";
 import Lenis from "lenis";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Home, FileText } from "lucide-react";
 import Link from "next/link";
-import confetti from "canvas-confetti";
 import { projects } from "../../../lib/projects";
 import { CustomCursor } from "../../../components/scrapbook/CustomCursor";
 import { CursorGlow } from "../../../components/scrapbook/CursorGlow";
@@ -102,74 +101,11 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         }
     }, []);
 
-    // Confetti effect when "The Insight" section comes into view
-    const confettiFired = useRef(false);
-    useEffect(() => {
-        if (!project) return;
-        const timer = setTimeout(() => {
-            const closingEl = document.getElementById("section-closing");
-            if (!closingEl) return;
-
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting && !confettiFired.current) {
-                            confettiFired.current = true;
-
-                            // Initial burst from left
-                            confetti({
-                                particleCount: 80,
-                                spread: 70,
-                                origin: { x: 0.2, y: 0.6 },
-                                colors: ["#C54B3E", "#F9F6F0", "#A0B0C0", "#FFD700", "#FF6B6B"],
-                                ticks: 200,
-                                gravity: 0.8,
-                                scalar: 1.2,
-                            });
-                            // Burst from right with slight delay
-                            setTimeout(() => {
-                                confetti({
-                                    particleCount: 80,
-                                    spread: 70,
-                                    origin: { x: 0.8, y: 0.6 },
-                                    colors: ["#C54B3E", "#F9F6F0", "#A0B0C0", "#FFD700", "#FF6B6B"],
-                                    ticks: 200,
-                                    gravity: 0.8,
-                                    scalar: 1.2,
-                                });
-                            }, 200);
-                            // Final center shower
-                            setTimeout(() => {
-                                confetti({
-                                    particleCount: 120,
-                                    spread: 100,
-                                    origin: { x: 0.5, y: 0.3 },
-                                    colors: ["#C54B3E", "#F9F6F0", "#A0B0C0", "#FFD700", "#FF6B6B"],
-                                    ticks: 300,
-                                    gravity: 0.6,
-                                    scalar: 1.4,
-                                });
-                            }, 500);
-                        }
-                    });
-                },
-                { threshold: 0.3 }
-            );
-
-            observer.observe(closingEl);
-            return () => observer.disconnect();
-        }, 500);
-
-        return () => clearTimeout(timer);
-    }, [project]);
 
     if (!project) {
         return <div className="min-h-screen text-white bg-[#121212] flex items-center justify-center">Project not found</div>;
     }
 
-    const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
-    const yFast = useTransform(scrollYProgress, [0, 1], [0, -400]);
-    const ySlow = useTransform(scrollYProgress, [0, 1], [0, 300]);
 
     return (
         <div
@@ -262,22 +198,22 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                             : "/images/uefa-champions-league.jpg";
                         return (
                             <>
-                                <motion.div style={{ y: ySlow }} className="absolute -bottom-32 left-0 rotate-[-8deg] opacity-70 blur-[2px] hidden md:block z-0 pointer-events-none">
+                                <div className="absolute -bottom-32 left-0 rotate-[-8deg] opacity-70 blur-[2px] hidden md:block z-0 pointer-events-none">
                                     <ScrapCard width={400} height={300} content={
                                         <div className="absolute inset-0 overflow-hidden">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img src={heroImg} alt="Project visual" className="w-full h-full object-cover" />
                                         </div>
                                     } />
-                                </motion.div>
-                                <motion.div style={{ y: yFast }} className="absolute -bottom-16 right-10 rotate-[12deg] z-30 hidden md:block">
+                                </div>
+                                <div className="absolute -bottom-16 right-10 rotate-[12deg] z-30 hidden md:block">
                                     <ScrapCard width={350} height={250} content={
                                         <div className="absolute inset-0 overflow-hidden">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img src={heroImg} alt="Project visual" className="w-full h-full object-cover" />
                                         </div>
                                     } />
-                                </motion.div>
+                                </div>
                             </>
                         );
                     })()}
@@ -294,23 +230,15 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     />
 
                     {/* Hook text */}
-                    <motion.p
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-15%" }}
-                        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                    <p
                         className="text-3xl md:text-5xl text-[#F9F6F0] leading-relaxed mb-12 font-medium"
                         style={{ textShadow: "0 0 60px rgba(197,75,62,0.15)" }}
                     >
                         {project.story.opening.hook}
-                    </motion.p>
+                    </p>
 
                     {/* Big question — glowing italic */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.96 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true, margin: "-15%" }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                    <div
                         className="relative mb-16 px-8 py-6"
                     >
                         {/* Subtle glow behind quote */}
@@ -328,33 +256,21 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                         {/* Decorative quote marks */}
                         <span className="absolute -top-4 left-2 text-[#C54B3E]/20 font-serif text-7xl leading-none select-none">&ldquo;</span>
                         <span className="absolute -bottom-8 right-2 text-[#C54B3E]/20 font-serif text-7xl leading-none select-none">&rdquo;</span>
-                    </motion.div>
+                    </div>
 
                     {/* Highlight pills — staggered */}
                     {project.story.opening.highlights && (
                         <div className="flex flex-wrap justify-center gap-4">
                             {project.story.opening.highlights.map((highlight, i) => (
-                                <motion.div
+                                <div
                                     key={i}
-                                    initial={{ opacity: 0, y: 16 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: "-10%" }}
-                                    transition={{ duration: 0.5, delay: 0.35 + i * 0.1, ease: "easeOut" }}
-                                    whileHover={{ scale: 1.05, borderColor: "rgba(197,75,62,0.7)" }}
                                     className="relative px-6 py-3 border border-[#C54B3E]/30 rounded-full backdrop-blur-sm cursor-default overflow-hidden"
                                     style={{ background: "rgba(197,75,62,0.07)" }}
                                 >
-                                    {/* Shimmer on hover */}
-                                    <motion.div
-                                        className="absolute inset-0 -translate-x-full rounded-full"
-                                        whileHover={{ translateX: "200%" }}
-                                        transition={{ duration: 0.6 }}
-                                        style={{ background: "linear-gradient(90deg, transparent, rgba(197,75,62,0.15), transparent)" }}
-                                    />
                                     <span className="relative text-[#F9F6F0] font-mono text-sm font-bold uppercase tracking-widest">
                                         {highlight}
                                     </span>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     )}
@@ -421,14 +337,14 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                 <div className="flex-1 relative min-h-[400px] w-full flex items-center justify-center">
                                     {chapter.scrapCards ? (
                                         chapter.scrapCards.map((card, i) => (
-                                            <motion.div key={i} style={{ y: i % 2 === 0 ? ySlow : yFast, marginTop: card.offsetY ?? 0 }} className="absolute z-10">
+                                            <div key={i} style={{ marginTop: card.offsetY ?? 0 }} className="absolute z-10">
                                                 <ScrapCard width={card.width} height={card.height} rotation={card.rotation} content={card.content} />
-                                            </motion.div>
+                                            </div>
                                         ))
                                     ) : (
-                                        <motion.div style={{ y: ySlow }} className="absolute z-10 opacity-30 blur-[2px]">
+                                        <div className="absolute z-10 opacity-30 blur-[2px]">
                                             <ScrapCard width={450} height={300} rotation={isEven ? 8 : -6} />
-                                        </motion.div>
+                                        </div>
                                     )}
                                 </div>
                             </section>
