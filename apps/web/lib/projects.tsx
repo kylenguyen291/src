@@ -260,7 +260,7 @@ export const projects: Project[] = [
     slug: "loan-default-prediction",
     title: "One Bad Loan Costs Five Good Ones",
     subtitle: "Building a Profit-Maximizing Default Prediction Engine",
-    category: "Machine Learning · Banking",
+    category: "Banking Models",
     date: "March 2026",
     tags: ["Python", "Gradient Boosting", "SMOTE", "Profit Optimization", "SBA Dataset"],
 

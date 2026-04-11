@@ -51,14 +51,14 @@ export function ScrapCard({
             }}
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
-            className={`interactive relative bg-[#F9F6F0] p-8 rounded-sm shadow-xl shadow-black/20 ring-1 ring-black/5 origin-center flex items-center justify-center ${className}`}
+            className={`interactive relative bg-[#F9F6F0] rounded-sm shadow-xl shadow-black/20 ring-1 ring-black/5 origin-center overflow-hidden ${className}`}
             style={{ width, height }}
         >
             {/* Tape effect on top */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-white/30 backdrop-blur-sm -rotate-2 mix-blend-overlay shadow-sm z-10" />
 
             {/* Content area */}
-            <div className="flex flex-col justify-center w-full h-full p-4 text-left">
+            <div className="flex flex-col justify-center w-full h-full text-left">
                 {content || (
                     <div className="flex items-center justify-center w-full h-full text-gray-400 text-lg font-medium">
                         Content Area

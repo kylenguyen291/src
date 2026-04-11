@@ -10,6 +10,191 @@ import { motion, AnimatePresence, useSpring } from "framer-motion";
 
 const CODE_LINE = `SELECT * FROM case_files WHERE curiosity > 0 ORDER BY impact DESC;`;
 
+const CHART_BARS = [
+    { h: 55, label: "loan_amt" }, { h: 72, label: "dscr" }, { h: 48, label: "term" },
+    { h: 88, label: "rev_line" }, { h: 63, label: "emp_ct" }, { h: 95, label: "sba_appv" },
+];
+
+const BACKLOG = [
+    { id: "PM-14", title: "Define success metrics for v2", status: "done", priority: "high" },
+    { id: "PM-15", title: "User interviews — lender segment", status: "done", priority: "med" },
+    { id: "PM-16", title: "Feature spec: threshold tuning UI", status: "in-progress", priority: "high" },
+    { id: "PM-17", title: "Stakeholder review — risk model", status: "in-progress", priority: "high" },
+    { id: "PM-18", title: "Pricing page A/B test brief", status: "backlog", priority: "low" },
+    { id: "PM-19", title: "Docs: profit-optimization logic", status: "backlog", priority: "med" },
+];
+
+function ProductMockup() {
+    const [tick, setTick] = useState(0);
+    const [progress, setProgress] = useState(24);
+    const [doneCount, setDoneCount] = useState(2);
+
+    useEffect(() => {
+        const t = setInterval(() => setTick(n => n + 1), 2200);
+        return () => clearInterval(t);
+    }, []);
+
+    useEffect(() => {
+        const t = setInterval(() => {
+            setProgress(p => {
+                const next = p + Math.floor(Math.random() * 4 + 1);
+                return next > 100 ? 8 : next;
+            });
+        }, 900);
+        return () => clearInterval(t);
+    }, []);
+
+    // Animate a backlog item completing every ~6s
+    useEffect(() => {
+        const t = setInterval(() => {
+            setDoneCount(n => Math.min(n + 1, BACKLOG.length));
+        }, 6000);
+        return () => clearInterval(t);
+    }, []);
+
+    const activeBar = tick % CHART_BARS.length;
+
+    const statusColor: Record<string, string> = {
+        done: "text-green-400/80",
+        "in-progress": "text-yellow-400/80",
+        backlog: "text-white/25",
+    };
+    const statusDot: Record<string, string> = {
+        done: "bg-green-400",
+        "in-progress": "bg-yellow-400",
+        backlog: "bg-white/20",
+    };
+    const priorityBadge: Record<string, string> = {
+        high: "border-[#C54B3E]/50 text-[#C54B3E]/70",
+        med: "border-white/20 text-white/30",
+        low: "border-white/10 text-white/20",
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="w-full max-w-2xl rounded-md overflow-hidden border border-[#C54B3E]/20 shadow-2xl shadow-black/50"
+            style={{ background: "#0a0a0a" }}
+        >
+            {/* Title bar */}
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/5" style={{ background: "#111" }}>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#C54B3E]/80" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
+                <span className="ml-4 font-mono text-[10px] text-white/30 tracking-widest uppercase">project_workspace — sprint 4</span>
+                <span className="ml-auto flex items-center gap-1.5">
+                    <motion.span
+                        animate={{ opacity: [1, 0.2, 1] }}
+                        transition={{ duration: 1.4, repeat: Infinity }}
+                        className="w-1.5 h-1.5 rounded-full bg-green-400"
+                    />
+                    <span className="font-mono text-[9px] text-green-400/70">LIVE</span>
+                </span>
+            </div>
+
+            <div className="flex divide-x divide-white/5">
+                {/* Backlog panel */}
+                <div className="flex-1 px-4 pt-3 pb-3">
+                    <div className="flex items-center justify-between mb-2.5">
+                        <p className="font-mono text-[9px] uppercase tracking-widest text-white/25">backlog</p>
+                        <span className="font-mono text-[9px] text-white/20">{doneCount}/{BACKLOG.length} done</span>
+                    </div>
+                    <div className="space-y-1.5">
+                        {BACKLOG.map((item, i) => {
+                            const resolved = i < doneCount ? "done" : item.status;
+                            return (
+                                <motion.div
+                                    key={item.id}
+                                    initial={{ opacity: 0, x: -8 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.07, duration: 0.4 }}
+                                    className="flex items-center gap-2"
+                                >
+                                    <motion.span
+                                        animate={{ backgroundColor: resolved === "done" ? "#4ade80" : resolved === "in-progress" ? "#facc15" : "rgba(255,255,255,0.15)" }}
+                                        transition={{ duration: 0.5 }}
+                                        className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot[resolved]}`}
+                                    />
+                                    <span className={`font-mono text-[9px] flex-1 truncate transition-colors duration-500 ${resolved === "done" ? "line-through text-white/20" : "text-white/45"}`}>
+                                        {item.title}
+                                    </span>
+                                    <span className={`font-mono text-[7px] border rounded px-1 py-px shrink-0 ${priorityBadge[item.priority]}`}>
+                                        {item.priority}
+                                    </span>
+                                    <span className="font-mono text-[7px] text-white/15 shrink-0">{item.id}</span>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Right panel: chart + metrics */}
+                <div className="w-44 flex flex-col divide-y divide-white/5">
+                    {/* Mini chart */}
+                    <div className="px-3 pt-3 pb-2">
+                        <p className="font-mono text-[9px] uppercase tracking-widest text-white/25 mb-2">feature importance</p>
+                        <div className="flex items-end gap-1 h-12">
+                            {CHART_BARS.map((bar, i) => (
+                                <motion.div
+                                    key={i}
+                                    className="flex-1 rounded-sm"
+                                    animate={{
+                                        height: `${bar.h}%`,
+                                        backgroundColor: i === activeBar ? "rgba(197,75,62,0.9)" : "rgba(197,75,62,0.22)",
+                                    }}
+                                    transition={{ duration: 0.5, ease: "easeOut" }}
+                                />
+                            ))}
+                        </div>
+                        <p className="font-mono text-[7px] text-white/15 mt-1 truncate">{CHART_BARS[activeBar]?.label}</p>
+                    </div>
+
+                    {/* Model metrics */}
+                    <div className="px-3 pt-2.5 pb-2 space-y-1.5">
+                        <p className="font-mono text-[9px] uppercase tracking-widest text-white/25 mb-1.5">model</p>
+                        {[
+                            { label: "AUC", value: "0.923", up: true },
+                            { label: "F1", value: "0.871", up: true },
+                            { label: "loss", value: "0.043", up: false },
+                        ].map((m, i) => (
+                            <div key={i} className="flex items-center justify-between">
+                                <span className="font-mono text-[9px] text-white/25">{m.label}</span>
+                                <span className={`font-mono text-[9px] font-bold ${m.up ? "text-green-400/80" : "text-[#C54B3E]/70"}`}>{m.value}</span>
+                            </div>
+                        ))}
+                        <div className="pt-1.5">
+                            <div className="flex justify-between mb-1">
+                                <span className="font-mono text-[8px] text-white/20">training</span>
+                                <span className="font-mono text-[8px] text-[#C54B3E]/60">{progress}%</span>
+                            </div>
+                            <div className="w-full h-0.5 bg-white/5 rounded-full overflow-hidden">
+                                <motion.div
+                                    className="h-full rounded-full"
+                                    animate={{ width: `${progress}%` }}
+                                    transition={{ duration: 0.8, ease: "easeOut" }}
+                                    style={{ background: "linear-gradient(90deg, rgba(197,75,62,0.5), rgba(197,75,62,0.9))" }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom log line */}
+            <div className="px-4 py-2 border-t border-white/5 flex items-center gap-3" style={{ background: "#080808" }}>
+                <motion.span
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="w-1.5 h-3 bg-[#A0C4A0] inline-block"
+                />
+                <span className="font-mono text-[9px] text-white/20">PM-16 → in review · epoch 47/100 · val_auc=0.923 · best model saved</span>
+            </div>
+        </motion.div>
+    );
+}
+
 function CharacterOnBar({ cycle, visible }: { cycle: number; visible: boolean }) {
     const [pos, setPos] = useState(5);
     const [dir, setDir] = useState(1);
@@ -697,6 +882,7 @@ export default function DeskHubPage() {
                     transition={{ delay: 0.5, duration: 0.7 }}
                     className="flex flex-col items-center text-center mb-16 gap-5"
                 >
+                    <ProductMockup />
                     <TypewriterCode />
 
                     <div className="flex items-center gap-4 w-full max-w-2xl">
@@ -749,7 +935,7 @@ export default function DeskHubPage() {
                             <ScrapCard
                                 width={480}
                                 height={340}
-                                rotation={p.card.rotation}
+                                rotation={0}
                                 href={`/projects/${p.slug}`}
                                 className="bg-white"
                                 delay={i * 0.15}
@@ -765,7 +951,7 @@ export default function DeskHubPage() {
                                             <div className="absolute inset-0 z-0">
                                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                                 <img
-                                                    src={p.slug === "football-sponsorship-analytics" ? "/images/uefa-champions-league.jpg" : "/images/banking-background.png"}
+                                                    src={p.slug === "football-sponsorship-analytics" ? "/images/uefa-champions-league.jpg" : "/images/ib-background.png"}
                                                     alt=""
                                                     className="w-full h-full object-cover"
                                                     style={{ objectPosition: "center center" }}
@@ -777,7 +963,7 @@ export default function DeskHubPage() {
                                             </div>
                                         )}
 
-                                        <div className="pl-6 pr-5 pt-6 pb-5 flex flex-col h-full relative z-10">
+                                        <div className={(p.slug === "football-sponsorship-analytics" || p.slug === "loan-default-prediction") ? "absolute inset-0 pl-6 pr-5 pt-6 pb-5 flex flex-col h-full z-10" : "pl-6 pr-5 pt-6 pb-5 flex flex-col h-full relative z-10"}>
                                             <p className={`font-mono text-[10px] uppercase tracking-widest mb-3 font-bold ${(p.slug === "football-sponsorship-analytics" || p.slug === "loan-default-prediction") ? "text-white/60" : "text-[#A0B0C0]"}`}
                                                 style={(p.slug === "football-sponsorship-analytics" || p.slug === "loan-default-prediction") ? { textShadow: "0 1px 4px rgba(0,0,0,0.8)" } : {}}>
                                                 {p.date}
