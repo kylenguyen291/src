@@ -26,7 +26,7 @@ export function LiveSVG({
             width={width}
             height={height}
             viewBox={viewBox}
-            className={`absolute pointer-events-none stroke-[#C54B3E] fill-none stroke-[3] overflow-visible ${className}`}
+            className={`absolute pointer-events-none stroke-[#0E56FA] fill-none stroke-[3] overflow-visible ${className}`}
             style={{ strokeLinecap: "round", strokeLinejoin: "round" }}
             initial="hidden"
             whileInView="visible"

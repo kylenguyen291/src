@@ -103,13 +103,13 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
 
     if (!project) {
-        return <div className="min-h-screen text-white bg-[#121212] flex items-center justify-center">Project not found</div>;
+        return <div className="min-h-screen text-white bg-[#0A0F1E] flex items-center justify-center">Project not found</div>;
     }
 
 
     return (
         <div
-            className="relative min-h-[300vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-sans overflow-hidden cursor-none"
+            className="relative min-h-[300vh] w-full bg-[#0A0F1E] text-[#F9F6F0] selection:bg-[#0E56FA]/30 selection:text-white font-sans overflow-hidden cursor-none"
             ref={containerRef}
         >
             <CustomCursor />
@@ -120,16 +120,13 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}>
             </div>
 
-            {/* Grid Pattern Background - faint */}
-            <div className="fixed inset-0 z-0 pointer-events-none opacity-20"
-                style={{ backgroundImage: `linear-gradient(#A0B0C0 1px, transparent 1px), linear-gradient(90deg, #A0B0C0 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
             {/* Red Sticky Border Alignments */}
-            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
-            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
+            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
+            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
 
             {/* Floating Home Button */}
-            <Link href="/" className="fixed top-6 left-12 z-50 interactive w-10 h-10 flex items-center justify-center rounded-full text-[#C54B3E] hover:bg-[#C54B3E]/10 transition-colors">
+            <Link href="/" className="fixed top-6 left-12 z-50 interactive w-10 h-10 flex items-center justify-center rounded-full text-[#0E56FA] hover:bg-[#0E56FA]/10 transition-colors">
                 <Home className="w-5 h-5" />
             </Link>
 
@@ -141,7 +138,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                         <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#A0B0C0]/15 rounded-full" />
                         {/* Connecting line (progress fill) */}
                         <div
-                            className="absolute left-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#C54B3E] rounded-full transition-all duration-700 ease-out"
+                            className="absolute left-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#0E56FA] rounded-full transition-all duration-700 ease-out"
                             style={{ width: `${(activeSection / (sectionIds.length - 1)) * (100 - (12 / 4))}%` }}
                         />
 
@@ -154,16 +151,16 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                             >
                                 {/* Circle */}
                                 <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${i <= activeSection
-                                        ? "bg-[#C54B3E] border-[#C54B3E] scale-110 shadow-[0_0_12px_rgba(197,75,62,0.5)]"
-                                        : "bg-[#1a1a1a] border-[#A0B0C0]/30 hover:border-[#C54B3E]/50 hover:scale-110"
+                                        ? "bg-[#0E56FA] border-[#0E56FA] scale-110 shadow-[0_0_12px_rgba(14,86,250,0.5)]"
+                                        : "bg-[#1a1a1a] border-[#A0B0C0]/30 hover:border-[#0E56FA]/50 hover:scale-110"
                                     }`}>
                                     {i === activeSection && (
-                                        <div className="absolute inset-0 rounded-full bg-[#C54B3E] animate-ping opacity-30" />
+                                        <div className="absolute inset-0 rounded-full bg-[#0E56FA] animate-ping opacity-30" />
                                     )}
                                 </div>
                                 {/* Label tooltip */}
                                 <span className={`absolute top-7 whitespace-nowrap text-[10px] font-mono uppercase tracking-wider transition-all duration-300 ${i === activeSection
-                                        ? "opacity-100 text-[#C54B3E] translate-y-0"
+                                        ? "opacity-100 text-[#0E56FA] translate-y-0"
                                         : "opacity-0 group-hover:opacity-70 text-[#A0B0C0] translate-y-1 group-hover:translate-y-0"
                                     }`}>
                                     {sectionLabels[i]}
@@ -225,14 +222,14 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     {/* Spotlight beam from top */}
                     <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[500px] pointer-events-none"
                         style={{
-                            background: "radial-gradient(ellipse 40% 60% at 50% 0%, rgba(197,75,62,0.18) 0%, transparent 70%)",
+                            background: "radial-gradient(ellipse 40% 60% at 50% 0%, rgba(14,86,250,0.18) 0%, transparent 70%)",
                         }}
                     />
 
                     {/* Hook text */}
                     <p
                         className="text-3xl md:text-5xl text-[#F9F6F0] leading-relaxed mb-12 font-medium"
-                        style={{ textShadow: "0 0 60px rgba(197,75,62,0.15)" }}
+                        style={{ textShadow: "0 0 60px rgba(14,86,250,0.15)" }}
                     >
                         {project.story.opening.hook}
                     </p>
@@ -244,18 +241,18 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                         {/* Subtle glow behind quote */}
                         <div className="absolute inset-0 rounded-xl pointer-events-none"
                             style={{
-                                background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(197,75,62,0.10) 0%, transparent 80%)",
-                                boxShadow: "inset 0 0 40px rgba(197,75,62,0.06)",
+                                background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(14,86,250,0.10) 0%, transparent 80%)",
+                                boxShadow: "inset 0 0 40px rgba(14,86,250,0.06)",
                             }}
                         />
-                        <p className="relative text-[#C54B3E]/90 font-mono text-xl md:text-2xl italic leading-relaxed"
-                            style={{ textShadow: "0 0 30px rgba(197,75,62,0.4)" }}
+                        <p className="relative text-[#0E56FA]/90 font-mono text-xl md:text-2xl italic leading-relaxed"
+                            style={{ textShadow: "0 0 30px rgba(14,86,250,0.4)" }}
                         >
                             &ldquo;{project.story.opening.bigQuestion}&rdquo;
                         </p>
                         {/* Decorative quote marks */}
-                        <span className="absolute -top-4 left-2 text-[#C54B3E]/20 font-sans text-7xl leading-none select-none">&ldquo;</span>
-                        <span className="absolute -bottom-8 right-2 text-[#C54B3E]/20 font-sans text-7xl leading-none select-none">&rdquo;</span>
+                        <span className="absolute -top-4 left-2 text-[#0E56FA]/20 font-sans text-7xl leading-none select-none">&ldquo;</span>
+                        <span className="absolute -bottom-8 right-2 text-[#0E56FA]/20 font-sans text-7xl leading-none select-none">&rdquo;</span>
                     </div>
 
                     {/* Highlight pills — staggered */}
@@ -264,8 +261,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                             {project.story.opening.highlights.map((highlight, i) => (
                                 <div
                                     key={i}
-                                    className="relative px-6 py-3 border border-[#C54B3E]/30 rounded-full backdrop-blur-sm cursor-default overflow-hidden"
-                                    style={{ background: "rgba(197,75,62,0.07)" }}
+                                    className="relative px-6 py-3 border border-[#0E56FA]/30 rounded-full backdrop-blur-sm cursor-default overflow-hidden"
+                                    style={{ background: "rgba(14,86,250,0.07)" }}
                                 >
                                     <span className="relative text-[#F9F6F0] font-mono text-sm font-bold uppercase tracking-widest">
                                         {highlight}
@@ -284,7 +281,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                         return (
                             <section key={chapter.id} id={chapter.id} className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center justify-between gap-16`}>
                                 <div className="flex-1 space-y-8 relative">
-                                    <h2 className="text-4xl md:text-5xl border-l-[3px] border-[#C54B3E] pl-6 font-medium leading-tight">
+                                    <h2 className="text-4xl md:text-5xl border-l-[3px] border-[#0E56FA] pl-6 font-medium leading-tight">
                                         {chapter.heading}
                                     </h2>
                                     <p className="text-[#A0B0C0] font-sans text-xl leading-relaxed max-w-xl">
@@ -305,13 +302,13 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                         <div className="pt-8 flex justify-center items-center gap-12 flex-wrap">
                                             {chapter.stat && (
                                                 <div className="text-center">
-                                                    <p className="text-5xl sm:text-6xl font-bold text-[#C54B3E] tracking-tighter">{chapter.stat.value}</p>
+                                                    <p className="text-5xl sm:text-6xl font-bold text-[#0E56FA] tracking-tighter">{chapter.stat.value}</p>
                                                     <p className="uppercase font-mono text-xs tracking-widest text-[#A0B0C0] mt-2">{chapter.stat.label}</p>
                                                 </div>
                                             )}
                                             {chapter.stats && chapter.stats.map((stat, i) => (
                                                 <div key={i} className="text-center">
-                                                    <p className="text-5xl sm:text-6xl font-bold text-[#C54B3E] tracking-tighter">{stat.value}</p>
+                                                    <p className="text-5xl sm:text-6xl font-bold text-[#0E56FA] tracking-tighter">{stat.value}</p>
                                                     <p className="uppercase font-mono text-xs tracking-widest text-[#A0B0C0] mt-2">{stat.label}</p>
                                                 </div>
                                             ))}
@@ -357,14 +354,14 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     <section className="mt-[30vh] max-w-6xl mx-auto px-6 relative z-20">
                         <div className="grid md:grid-cols-2 gap-16 items-center">
                             <div>
-                                <h2 className="text-sm font-mono text-[#C54B3E] uppercase tracking-[0.3em] mb-4">Technical Breakdown</h2>
+                                <h2 className="text-sm font-mono text-[#0E56FA] uppercase tracking-[0.3em] mb-4">Technical Breakdown</h2>
                                 <h3 className="text-4xl md:text-5xl font-medium mb-8 uppercase tracking-tight">{project.story.depiction.title}</h3>
                                 <p className="text-[#A0B0C0] text-xl leading-relaxed mb-10">
                                     {project.story.depiction.body}
                                 </p>
                                 <div className="space-y-6">
                                     {project.story.depiction.highlights.map((h, i) => (
-                                        <div key={i} className="flex flex-col border-l-2 border-[#C54B3E]/30 pl-6 py-2">
+                                        <div key={i} className="flex flex-col border-l-2 border-[#0E56FA]/30 pl-6 py-2">
                                             <span className="text-[#F9F6F0] font-mono text-lg">{h.split(' — ')[0]}</span>
                                             {h.includes(' — ') && (
                                                 <span className="text-[#A0B0C0] text-sm uppercase tracking-wider mt-1">{h.split(' — ')[1]}</span>
@@ -415,7 +412,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 <section id="section-closing" className="relative mt-[2vh] w-full px-6 md:px-12 z-30">
                     {/* Section Header */}
                     <div className="text-center mb-16">
-                        <h2 className="text-sm font-mono text-[#C54B3E] uppercase tracking-[0.3em] mb-4">Final Thoughts</h2>
+                        <h2 className="text-sm font-mono text-[#0E56FA] uppercase tracking-[0.3em] mb-4">Final Thoughts</h2>
                         <h3 className="text-4xl md:text-6xl font-medium text-[#F9F6F0] tracking-tight">The Insight</h3>
                     </div>
 
@@ -432,14 +429,14 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                             {/* Background Pattern */}
                             <div className="absolute inset-0 opacity-5">
                                 <div className="absolute inset-0" style={{ 
-                                    backgroundImage: `linear-gradient(45deg, #C54B3E 1px, transparent 1px), linear-gradient(-45deg, #C54B3E 1px, transparent 1px)`, 
+                                    backgroundImage: `linear-gradient(45deg, #0E56FA 1px, transparent 1px), linear-gradient(-45deg, #0E56FA 1px, transparent 1px)`, 
                                     backgroundSize: '20px 20px' 
                                 }} />
                             </div>
 
                             {/* Content */}
                             <div className="relative z-10 text-center space-y-8">
-                                <div className="w-16 h-[2px] bg-[#C54B3E] mx-auto mb-8" />
+                                <div className="w-16 h-[2px] bg-[#0E56FA] mx-auto mb-8" />
                                 
                                 <p className="text-2xl md:text-3xl leading-relaxed font-sans text-[#F9F6F0] max-w-4xl mx-auto italic">
                                     "{project.story.closing.insight}"
@@ -449,7 +446,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                                     <div className="pt-8">
                                         <Link
                                             href={project.story.closing.ctaHref}
-                                            className="interactive inline-flex items-center gap-3 px-8 py-4 bg-[#C54B3E] text-white rounded-full font-sans font-semibold tracking-wide hover:bg-white hover:text-[#C54B3E] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                                            className="interactive inline-flex items-center gap-3 px-8 py-4 bg-[#0E56FA] text-white rounded-full font-sans font-semibold tracking-wide hover:bg-white hover:text-[#0E56FA] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                                         >
                                             <FileText className="w-5 h-5" />
                                             {project.story.closing.cta}
@@ -459,9 +456,9 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                             </div>
 
                             {/* Decorative Elements */}
-                            <div className="absolute top-4 right-4 w-2 h-2 bg-[#C54B3E] rounded-full opacity-60" />
-                            <div className="absolute bottom-6 left-6 w-1 h-1 bg-[#C54B3E] rounded-full opacity-40" />
-                            <div className="absolute top-1/2 left-4 w-1.5 h-1.5 bg-[#C54B3E] rounded-full opacity-30" />
+                            <div className="absolute top-4 right-4 w-2 h-2 bg-[#0E56FA] rounded-full opacity-60" />
+                            <div className="absolute bottom-6 left-6 w-1 h-1 bg-[#0E56FA] rounded-full opacity-40" />
+                            <div className="absolute top-1/2 left-4 w-1.5 h-1.5 bg-[#0E56FA] rounded-full opacity-30" />
                         </div>
 
                         {/* Bottom Decorative SVG */}

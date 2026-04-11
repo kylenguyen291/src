@@ -127,14 +127,14 @@ export default function Variant2Page({ params }: { params: Promise<{ slug: strin
                 style={{ backgroundImage: `linear-gradient(#A0B0C0 1px, transparent 1px), linear-gradient(90deg, #A0B0C0 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
             {/* Red Sticky Border Lines */}
-            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
-            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
+            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
+            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
 
             {/* Top progress bar */}
             {numPages && (
-                <div className="fixed top-0 left-0 right-0 h-1 bg-[#C54B3E]/20 z-50">
+                <div className="fixed top-0 left-0 right-0 h-1 bg-[#0E56FA]/20 z-50">
                     <div
-                        className="h-full bg-[#C54B3E] transition-all duration-500 ease-out"
+                        className="h-full bg-[#0E56FA] transition-all duration-500 ease-out"
                         style={{ width: `${((activePage) / numPages) * 100}%` }}
                     />
                 </div>
@@ -178,7 +178,7 @@ export default function Variant2Page({ params }: { params: Promise<{ slug: strin
                         <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-[2px] bg-white/10 rounded-full" />
                         {/* Connecting line (progress fill) */}
                         <div
-                            className="absolute left-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#C54B3E] rounded-full transition-all duration-700 ease-out"
+                            className="absolute left-6 top-1/2 -translate-y-1/2 h-[2px] bg-[#0E56FA] rounded-full transition-all duration-700 ease-out"
                             style={{
                                 width: activeSection >= 0
                                     ? `${(activeSection / (SECTIONS.length - 1)) * (100 - 8)}%`
@@ -200,19 +200,19 @@ export default function Variant2Page({ params }: { params: Promise<{ slug: strin
                                 >
                                     <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
                                         isCurrent
-                                            ? "bg-[#C54B3E] border-[#C54B3E] scale-125 shadow-[0_0_12px_rgba(197,75,62,0.5)]"
+                                            ? "bg-[#0E56FA] border-[#0E56FA] scale-125 shadow-[0_0_12px_rgba(14,86,250,0.5)]"
                                             : isPast
-                                                ? "bg-[#C54B3E] border-[#C54B3E]"
+                                                ? "bg-[#0E56FA] border-[#0E56FA]"
                                                 : "bg-transparent border-white/25 group-hover:border-white/50 group-hover:scale-110"
                                     }`}>
                                         {isCurrent && (
-                                            <div className="absolute inset-0 rounded-full bg-[#C54B3E] animate-ping opacity-20" />
+                                            <div className="absolute inset-0 rounded-full bg-[#0E56FA] animate-ping opacity-20" />
                                         )}
                                     </div>
 
                                     <span className={`absolute top-8 whitespace-nowrap text-[10px] font-mono uppercase tracking-wider transition-all duration-300 ${
                                         isCurrent
-                                            ? "opacity-100 text-[#C54B3E] font-bold translate-y-0"
+                                            ? "opacity-100 text-[#0E56FA] font-bold translate-y-0"
                                             : "opacity-0 group-hover:opacity-70 text-white/60 translate-y-1 group-hover:translate-y-0"
                                     }`}>
                                         {section.label}
@@ -230,7 +230,7 @@ export default function Variant2Page({ params }: { params: Promise<{ slug: strin
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={
                     <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 text-[#A0B0C0] z-20">
-                        <Loader2 className="w-8 h-8 animate-spin text-[#C54B3E]" />
+                        <Loader2 className="w-8 h-8 animate-spin text-[#0E56FA]" />
                         <p className="text-sm font-mono tracking-widest uppercase">Loading Story...</p>
                     </div>
                 }

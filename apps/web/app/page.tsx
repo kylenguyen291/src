@@ -28,7 +28,7 @@ function CursorGlow() {
             ref={glowRef}
             className="fixed top-0 left-0 w-[400px] h-[400px] pointer-events-none z-[5] rounded-full"
             style={{
-                background: "radial-gradient(circle, rgba(197,75,62,0.13) 0%, rgba(197,75,62,0.05) 40%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(14,86,250,0.13) 0%, rgba(14,86,250,0.05) 40%, transparent 70%)",
                 willChange: "transform",
                 transition: "transform 0.08s linear",
             }}
@@ -40,7 +40,7 @@ export default function DeskHubPage() {
     const [curtainOpen, setCurtainOpen] = useState(false);
 
     return (
-        <div className="relative min-h-[100vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-sans overflow-hidden cursor-none flex flex-col">
+        <div className="relative min-h-[100vh] w-full bg-[#0A0F1E] text-[#F9F6F0] selection:bg-[#0E56FA]/30 selection:text-white font-sans overflow-hidden cursor-none flex flex-col">
             <CustomCursor />
             <CursorGlow />
 
@@ -56,7 +56,7 @@ export default function DeskHubPage() {
                             transition={{ duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
                             onClick={() => setCurtainOpen(true)}
                         >
-                            <div className="absolute inset-0 bg-[#C54B3E]" />
+                            <div className="absolute inset-0 bg-[#0E56FA]" />
                             <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.9) 3px, rgba(0,0,0,0.9) 4px)" }} />
                             <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.6) 3px, rgba(0,0,0,0.6) 4px)" }} />
                             {[12, 28, 46, 64, 82].map((pos) => (
@@ -89,7 +89,7 @@ export default function DeskHubPage() {
                             transition={{ duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
                             onClick={() => setCurtainOpen(true)}
                         >
-                            <div className="absolute inset-0 bg-[#C54B3E]" />
+                            <div className="absolute inset-0 bg-[#0E56FA]" />
                             <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.9) 3px, rgba(0,0,0,0.9) 4px)" }} />
                             <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.6) 3px, rgba(0,0,0,0.6) 4px)" }} />
                             {[18, 36, 54, 72, 88].map((pos) => (
@@ -271,9 +271,6 @@ export default function DeskHubPage() {
 
 
 
-            {/* Grid */}
-            <div className="fixed inset-0 z-0 pointer-events-none opacity-20"
-                style={{ backgroundImage: `linear-gradient(#A0B0C0 1px, transparent 1px), linear-gradient(90deg, #A0B0C0 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
             {/* Red margin lines */}
 
@@ -286,7 +283,7 @@ export default function DeskHubPage() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="flex flex-col items-center text-center gap-6 border-b border-[#A0B0C0]/20 pb-12"
                 >
-                    <p className="font-mono text-[#C54B3E] text-xs uppercase tracking-[0.3em]">
+                    <p className="font-mono text-[#0E56FA] text-xs uppercase tracking-[0.3em]">
                         Portfolio · Data Analytics · Product Management
                     </p>
                     <p className="font-mono text-[#A0B0C0]/60 text-[10px] uppercase tracking-[0.25em]">
@@ -307,32 +304,32 @@ export default function DeskHubPage() {
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: 1 }}
                             transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
-                            className="absolute top-0 left-0 right-0 h-[1px] bg-[#C54B3E]/50 origin-left"
+                            className="absolute top-0 left-0 right-0 h-[1px] bg-[#0E56FA]/50 origin-left"
                         />
                         <motion.div
                             initial={{ scaleX: 0 }}
                             animate={{ scaleX: 1 }}
                             transition={{ duration: 0.8, delay: 1.1, ease: "easeOut" }}
-                            className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#C54B3E]/50 origin-right"
+                            className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#0E56FA]/50 origin-right"
                         />
                         <motion.div
                             initial={{ scaleY: 0 }}
                             animate={{ scaleY: 1 }}
                             transition={{ duration: 0.6, delay: 1.3, ease: "easeOut" }}
-                            className="absolute top-0 left-0 bottom-0 w-[1px] bg-[#C54B3E]/30 origin-top"
+                            className="absolute top-0 left-0 bottom-0 w-[1px] bg-[#0E56FA]/30 origin-top"
                         />
                         <motion.div
                             initial={{ scaleY: 0 }}
                             animate={{ scaleY: 1 }}
                             transition={{ duration: 0.6, delay: 1.3, ease: "easeOut" }}
-                            className="absolute top-0 right-0 bottom-0 w-[1px] bg-[#C54B3E]/30 origin-bottom"
+                            className="absolute top-0 right-0 bottom-0 w-[1px] bg-[#0E56FA]/30 origin-bottom"
                         />
 
                         {/* Corner accents */}
-                        <div className="absolute -top-[2px] -left-[2px] w-2 h-2 border-t-2 border-l-2 border-[#C54B3E]" />
-                        <div className="absolute -top-[2px] -right-[2px] w-2 h-2 border-t-2 border-r-2 border-[#C54B3E]" />
-                        <div className="absolute -bottom-[2px] -left-[2px] w-2 h-2 border-b-2 border-l-2 border-[#C54B3E]" />
-                        <div className="absolute -bottom-[2px] -right-[2px] w-2 h-2 border-b-2 border-r-2 border-[#C54B3E]" />
+                        <div className="absolute -top-[2px] -left-[2px] w-2 h-2 border-t-2 border-l-2 border-[#0E56FA]" />
+                        <div className="absolute -top-[2px] -right-[2px] w-2 h-2 border-t-2 border-r-2 border-[#0E56FA]" />
+                        <div className="absolute -bottom-[2px] -left-[2px] w-2 h-2 border-b-2 border-l-2 border-[#0E56FA]" />
+                        <div className="absolute -bottom-[2px] -right-[2px] w-2 h-2 border-b-2 border-r-2 border-[#0E56FA]" />
 
                         {/* Shine sweep */}
                         <motion.div
@@ -368,7 +365,7 @@ export default function DeskHubPage() {
                                     transition={{ duration: 0.8, delay: 2.0, ease: "easeOut" }}
                                     className="text-[#F9F6F0] font-bold relative"
                                     style={{
-                                        backgroundImage: "linear-gradient(#C54B3E, #C54B3E)",
+                                        backgroundImage: "linear-gradient(#0E56FA, #0E56FA)",
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "0 100%",
                                     }}
@@ -382,7 +379,7 @@ export default function DeskHubPage() {
                                     transition={{ duration: 0.8, delay: 2.3, ease: "easeOut" }}
                                     className="text-[#F9F6F0] font-bold relative"
                                     style={{
-                                        backgroundImage: "linear-gradient(#C54B3E, #C54B3E)",
+                                        backgroundImage: "linear-gradient(#0E56FA, #0E56FA)",
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "0 100%",
                                     }}
@@ -405,7 +402,7 @@ export default function DeskHubPage() {
                                     transition={{ duration: 0.8, delay: 2.6, ease: "easeOut" }}
                                     className="text-[#F9F6F0]/70 font-medium"
                                     style={{
-                                        backgroundImage: "linear-gradient(#C54B3E, #C54B3E)",
+                                        backgroundImage: "linear-gradient(#0E56FA, #0E56FA)",
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "0 100%",
                                     }}
@@ -419,7 +416,7 @@ export default function DeskHubPage() {
                                     transition={{ duration: 0.8, delay: 2.9, ease: "easeOut" }}
                                     className="text-[#F9F6F0]/70 font-medium"
                                     style={{
-                                        backgroundImage: "linear-gradient(#C54B3E, #C54B3E)",
+                                        backgroundImage: "linear-gradient(#0E56FA, #0E56FA)",
                                         backgroundRepeat: "no-repeat",
                                         backgroundPosition: "0 100%",
                                     }}
@@ -440,7 +437,7 @@ export default function DeskHubPage() {
                                     initial={{ scaleX: 0 }}
                                     animate={{ scaleX: 1 }}
                                     transition={{ duration: 0.6, delay: 2.5, ease: "easeOut" }}
-                                    className="h-[1px] w-10 bg-[#C54B3E]/40 origin-right"
+                                    className="h-[1px] w-10 bg-[#0E56FA]/40 origin-right"
                                 />
                                 <motion.p
                                     animate={{ opacity: [0.5, 1, 0.5] }}
@@ -454,7 +451,7 @@ export default function DeskHubPage() {
                                     initial={{ scaleX: 0 }}
                                     animate={{ scaleX: 1 }}
                                     transition={{ duration: 0.6, delay: 2.5, ease: "easeOut" }}
-                                    className="h-[1px] w-10 bg-[#C54B3E]/40 origin-left"
+                                    className="h-[1px] w-10 bg-[#0E56FA]/40 origin-left"
                                 />
                             </motion.div>
                         </div>
@@ -476,14 +473,14 @@ export default function DeskHubPage() {
                     className="flex flex-col items-center text-center mb-16 gap-5"
                 >
                     <div className="flex items-center gap-4 w-full max-w-2xl">
-                        <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#C54B3E]/40" />
-                        <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[#C54B3E]/60">Select a case</span>
-                        <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#C54B3E]/40" />
+                        <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#0E56FA]/40" />
+                        <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[#0E56FA]/60">Select a case</span>
+                        <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#0E56FA]/40" />
                     </div>
 
                     <h2 className="text-4xl md:text-5xl font-black text-[#F9F6F0] leading-tight tracking-tight">
                         Real questions. Real data.<br />
-                        <span className="text-[#C54B3E]">Which one pulls you in?</span>
+                        <span className="text-[#0E56FA]">Which one pulls you in?</span>
                     </h2>
 
                     <p className="text-[#A0B0C0] font-sans text-sm max-w-lg leading-relaxed">
@@ -494,11 +491,11 @@ export default function DeskHubPage() {
                     <motion.div
                         animate={{ y: [0, 6, 0] }}
                         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                        className="text-[#C54B3E]/50 font-mono text-[10px] tracking-widest flex items-center gap-2"
+                        className="text-[#0E56FA]/50 font-mono text-[10px] tracking-widest flex items-center gap-2"
                     >
-                        <span className="w-4 h-[1px] bg-[#C54B3E]/40 inline-block" />
+                        <span className="w-4 h-[1px] bg-[#0E56FA]/40 inline-block" />
                         scroll down
-                        <span className="w-4 h-[1px] bg-[#C54B3E]/40 inline-block" />
+                        <span className="w-4 h-[1px] bg-[#0E56FA]/40 inline-block" />
                     </motion.div>
                 </motion.div>
 
@@ -514,7 +511,7 @@ export default function DeskHubPage() {
                         >
                             {/* Case number + category label */}
                             <div className="mb-5 flex items-baseline gap-4">
-                                <span className="font-mono text-[#C54B3E] text-sm font-bold tracking-widest">
+                                <span className="font-mono text-[#0E56FA] text-sm font-bold tracking-widest">
                                     {String(i + 1).padStart(2, "0")}
                                 </span>
                                 <span className="font-sans text-[#F9F6F0] text-2xl font-bold uppercase tracking-wide">
@@ -587,7 +584,7 @@ export default function DeskHubPage() {
 
                             <Link
                                 href={`/projects/${p.slug}`}
-                                className="mt-5 interactive inline-flex items-center gap-2 px-7 py-3 bg-[#C54B3E] text-[#F9F6F0] text-xs font-mono uppercase tracking-[0.2em] rounded-sm border border-[#C54B3E] hover:bg-transparent hover:text-[#C54B3E] transition-all duration-300 shadow-lg shadow-[#C54B3E]/20 hover:shadow-none"
+                                className="mt-5 interactive inline-flex items-center gap-2 px-7 py-3 bg-[#0E56FA] text-[#F9F6F0] text-xs font-mono uppercase tracking-[0.2em] rounded-sm border border-[#0E56FA] hover:bg-transparent hover:text-[#0E56FA] transition-all duration-300 shadow-lg shadow-[#0E56FA]/20 hover:shadow-none"
                             >
                                 Open Case File
                                 <ArrowRight className="w-3.5 h-3.5" />

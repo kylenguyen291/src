@@ -78,7 +78,7 @@ export const projects: Project[] = [
       rotation: -4,
       width: 520,
       height: 380,
-      accent: "#C54B3E",
+      accent: "#0E56FA",
       stackDepth: 0,
     },
 

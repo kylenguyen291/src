@@ -49,7 +49,7 @@ export default function Variant4Page() {
 
     return (
         <div
-            className="relative min-h-[300vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-sans overflow-hidden cursor-none"
+            className="relative min-h-[300vh] w-full bg-[#0A0F1E] text-[#F9F6F0] selection:bg-[#0E56FA]/30 selection:text-white font-sans overflow-hidden cursor-none"
             ref={containerRef}
         >
             <CustomCursor />
@@ -64,11 +64,11 @@ export default function Variant4Page() {
                 style={{ backgroundImage: `linear-gradient(#A0B0C0 1px, transparent 1px), linear-gradient(90deg, #A0B0C0 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
             {/* Red Sticky Border Alignments like the notebook string */}
-            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
-            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
+            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
+            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#0E56FA] opacity-50 z-10" />
 
             {/* Floating Home Button */}
-            <Button variant="ghost" size="icon" asChild className="fixed top-6 left-12 z-50 interactive rounded-full text-[#C54B3E] hover:bg-[#C54B3E]/10 hover:text-[#C54B3E] transition-colors">
+            <Button variant="ghost" size="icon" asChild className="fixed top-6 left-12 z-50 interactive rounded-full text-[#0E56FA] hover:bg-[#0E56FA]/10 hover:text-[#0E56FA] transition-colors">
                 <Link href="/"><Home className="w-5 h-5" /></Link>
             </Button>
 
@@ -107,7 +107,7 @@ export default function Variant4Page() {
                 {/* SECTION 2: The Core Problem */}
                 <section className="relative mt-[20vh] min-h-screen flex flex-col md:flex-row items-center justify-between gap-12 w-full max-w-7xl mx-auto">
                     <div className="flex-1 space-y-8 relative z-20">
-                        <h2 className="text-4xl md:text-5xl border-l-[3px] border-[#C54B3E] pl-6 font-medium">Data <br /> & Analytics</h2>
+                        <h2 className="text-4xl md:text-5xl border-l-[3px] border-[#0E56FA] pl-6 font-medium">Data <br /> & Analytics</h2>
                         <p className="text-[#A0B0C0] font-sans text-lg max-w-md leading-relaxed">
                             Building a comprehensive database that tracks sponsorship ROI across leagues, clubs, and individual players. Transforming gut-feel decisions into data-driven strategic insights.
                         </p>
@@ -144,12 +144,12 @@ export default function Variant4Page() {
                                 href="/var2"
                                 content={
                                     <div className="space-y-4 text-gray-800">
-                                        <h2 className="text-3xl md:text-4xl font-bold border-l-[3px] border-[#C54B3E] pl-4 mb-6">
+                                        <h2 className="text-3xl md:text-4xl font-bold border-l-[3px] border-[#0E56FA] pl-4 mb-6">
                                             Football Sponsorship Analytics
                                         </h2>
                                         <div className="space-y-4 text-base md:text-lg leading-relaxed">
                                             <p>
-                                                <span className="font-bold text-2xl text-[#C54B3E]">$8.7 billion</span> spent on football sponsorships every year — and most of it decided on gut feel.
+                                                <span className="font-bold text-2xl text-[#0E56FA]">$8.7 billion</span> spent on football sponsorships every year — and most of it decided on gut feel.
                                             </p>
                                             <p className="font-bold text-lg">
                                                 What if a database could tell you exactly which league, which club, and which player gives your brand the highest return for the lowest risk?
@@ -167,7 +167,7 @@ export default function Variant4Page() {
                                 paths={["M 20 20 C 80 10 90 80 50 90 C 10 80 20 30 50 30"]}
                                 delay={1}
                             />
-                            <span className="absolute -right-24 bottom-2 text-[#C54B3E] font-bold rotate-12" style={{ fontFamily: 'cursive' }}>Check this!</span>
+                            <span className="absolute -right-24 bottom-2 text-[#0E56FA] font-bold rotate-12" style={{ fontFamily: 'cursive' }}>Check this!</span>
                         </motion.div>
                         <motion.div style={{ y: ySlow }} className="absolute -left-32 -top-24 z-10 opacity-50 blur-[3px]">
                             <ScrapCard width={400} height={280} rotation={15} />
