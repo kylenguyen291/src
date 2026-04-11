@@ -49,7 +49,7 @@ export default function Variant4Page() {
 
     return (
         <div
-            className="relative min-h-[300vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-serif overflow-hidden cursor-none"
+            className="relative min-h-[300vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-sans overflow-hidden cursor-none"
             ref={containerRef}
         >
             <CustomCursor />

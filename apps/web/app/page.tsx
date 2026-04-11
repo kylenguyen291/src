@@ -40,7 +40,7 @@ export default function DeskHubPage() {
     const [curtainOpen, setCurtainOpen] = useState(false);
 
     return (
-        <div className="relative min-h-[100vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-serif overflow-hidden cursor-none flex flex-col">
+        <div className="relative min-h-[100vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-sans overflow-hidden cursor-none flex flex-col">
             <CustomCursor />
             <CursorGlow />
 
@@ -143,7 +143,7 @@ export default function DeskHubPage() {
                                     >
                                         <span className="font-mono text-[10px] text-[#F9F6F0]/30 mt-0.5">{item.num}</span>
                                         <div>
-                                            <p className="font-serif text-sm text-[#F9F6F0]/80 font-semibold leading-tight">{item.label}</p>
+                                            <p className="font-sans text-sm text-[#F9F6F0]/80 font-semibold leading-tight">{item.label}</p>
                                             <p className="font-mono text-[9px] text-[#F9F6F0]/40 mt-0.5">{item.tag}</p>
                                         </div>
                                     </motion.div>
@@ -258,7 +258,7 @@ export default function DeskHubPage() {
                                     transition={{ delay: 1.6, duration: 0.8 }}
                                     className="mt-4 border-l-2 border-[#F9F6F0]/20 pl-3"
                                 >
-                                    <p className="font-serif text-xs italic text-[#F9F6F0]/40 leading-relaxed">
+                                    <p className="font-sans text-xs italic text-[#F9F6F0]/40 leading-relaxed">
                                         "Without data,<br />you're just another person<br />with an opinion."
                                     </p>
                                     <p className="font-mono text-[9px] text-[#F9F6F0]/25 mt-1">— W. Edwards Deming</p>
@@ -269,116 +269,14 @@ export default function DeskHubPage() {
                 )}
             </AnimatePresence>
 
-            {/* Noise Grain */}
-            <div className="fixed inset-0 z-50 pointer-events-none opacity-[0.05] mix-blend-overlay"
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+
 
             {/* Grid */}
             <div className="fixed inset-0 z-0 pointer-events-none opacity-20"
                 style={{ backgroundImage: `linear-gradient(#A0B0C0 1px, transparent 1px), linear-gradient(90deg, #A0B0C0 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
             {/* Red margin lines */}
-            <div className="fixed top-0 bottom-0 left-8 md:left-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
-            <div className="fixed top-0 bottom-0 right-8 md:right-16 w-[1.5px] bg-[#C54B3E] opacity-50 z-10" />
 
-            {/* LEFT side decoration */}
-            <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                className="fixed left-0 top-0 bottom-0 w-24 z-10 pointer-events-none hidden lg:flex flex-col justify-center items-center gap-6 pl-5"
-            >
-                {/* Vertical label */}
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-[1px] h-16 bg-gradient-to-b from-transparent to-[#C54B3E]/40" />
-                    <span className="font-mono text-[9px] text-[#C54B3E]/50 uppercase tracking-[0.3em]" style={{ writingMode: "vertical-rl" }}>
-                        Data · Analytics
-                    </span>
-                    <div className="w-[1px] h-16 bg-gradient-to-t from-transparent to-[#C54B3E]/40" />
-                </div>
-
-                {/* Stat stack */}
-                <div className="flex flex-col gap-4 items-center">
-                    {[{ val: "2", label: "Projects" }, { val: "1M+", label: "Rows" }, { val: "∞", label: "Questions" }].map((s, i) => (
-                        <motion.div
-                            key={s.label}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 1.2 + i * 0.2 }}
-                            className="flex flex-col items-center gap-0.5"
-                        >
-                            <span className="font-serif text-lg font-black text-[#F9F6F0]/70">{s.val}</span>
-                            <span className="font-mono text-[8px] text-[#A0B0C0]/50 uppercase tracking-widest">{s.label}</span>
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Animated dot trail */}
-                <div className="flex flex-col gap-2 items-center">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="w-1 h-1 rounded-full bg-[#C54B3E]"
-                            animate={{ opacity: [0.1, 0.6, 0.1] }}
-                            transition={{ duration: 2, delay: i * 0.25, repeat: Infinity }}
-                        />
-                    ))}
-                </div>
-            </motion.div>
-
-            {/* RIGHT side decoration */}
-            <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                className="fixed right-0 top-0 bottom-0 w-24 z-10 pointer-events-none hidden lg:flex flex-col justify-center items-center gap-6 pr-5"
-            >
-                {/* Vertical label */}
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-[1px] h-16 bg-gradient-to-b from-transparent to-[#C54B3E]/40" />
-                    <span className="font-mono text-[9px] text-[#C54B3E]/50 uppercase tracking-[0.3em]" style={{ writingMode: "vertical-rl" }}>
-                        Product · Thinking
-                    </span>
-                    <div className="w-[1px] h-16 bg-gradient-to-t from-transparent to-[#C54B3E]/40" />
-                </div>
-
-                {/* Mini chart bars */}
-                <motion.div className="flex items-end gap-1 h-16">
-                    {[40, 65, 30, 80, 55, 90, 45].map((h, i) => (
-                        <motion.div
-                            key={i}
-                            className="w-1.5 rounded-sm bg-[#C54B3E]/40"
-                            initial={{ height: 0 }}
-                            animate={{ height: `${h}%` }}
-                            transition={{ delay: 1.3 + i * 0.1, duration: 0.5, ease: "easeOut" }}
-                        />
-                    ))}
-                </motion.div>
-
-                {/* Quote */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.8, duration: 0.8 }}
-                    className="border-r-2 border-[#C54B3E]/25 pr-2 text-right"
-                >
-                    <p className="font-serif text-[10px] italic text-[#F9F6F0]/30 leading-relaxed" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
-                        "In god we trust. All others bring data."
-                    </p>
-                </motion.div>
-
-                {/* Animated dot trail */}
-                <div className="flex flex-col gap-2 items-center">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="w-1 h-1 rounded-full bg-[#C54B3E]"
-                            animate={{ opacity: [0.1, 0.6, 0.1] }}
-                            transition={{ duration: 2, delay: 0.5 + i * 0.25, repeat: Infinity }}
-                        />
-                    ))}
-                </div>
-            </motion.div>
 
             {/* HERO */}
             <header className="relative z-20 pt-36 pb-0 px-8 md:px-24 max-w-7xl mx-auto w-full">
@@ -619,7 +517,7 @@ export default function DeskHubPage() {
                                 <span className="font-mono text-[#C54B3E] text-sm font-bold tracking-widest">
                                     {String(i + 1).padStart(2, "0")}
                                 </span>
-                                <span className="font-serif text-[#F9F6F0] text-2xl font-bold uppercase tracking-wide">
+                                <span className="font-sans text-[#F9F6F0] text-2xl font-bold uppercase tracking-wide">
                                     {p.category}
                                 </span>
                             </div>

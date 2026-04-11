@@ -109,7 +109,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
     return (
         <div
-            className="relative min-h-[300vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-serif overflow-hidden cursor-none"
+            className="relative min-h-[300vh] w-full bg-[#121212] text-[#F9F6F0] selection:bg-[#C54B3E]/30 selection:text-white font-sans overflow-hidden cursor-none"
             ref={containerRef}
         >
             <CustomCursor />
@@ -254,8 +254,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                             &ldquo;{project.story.opening.bigQuestion}&rdquo;
                         </p>
                         {/* Decorative quote marks */}
-                        <span className="absolute -top-4 left-2 text-[#C54B3E]/20 font-serif text-7xl leading-none select-none">&ldquo;</span>
-                        <span className="absolute -bottom-8 right-2 text-[#C54B3E]/20 font-serif text-7xl leading-none select-none">&rdquo;</span>
+                        <span className="absolute -top-4 left-2 text-[#C54B3E]/20 font-sans text-7xl leading-none select-none">&ldquo;</span>
+                        <span className="absolute -bottom-8 right-2 text-[#C54B3E]/20 font-sans text-7xl leading-none select-none">&rdquo;</span>
                     </div>
 
                     {/* Highlight pills — staggered */}
@@ -441,7 +441,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                             <div className="relative z-10 text-center space-y-8">
                                 <div className="w-16 h-[2px] bg-[#C54B3E] mx-auto mb-8" />
                                 
-                                <p className="text-2xl md:text-3xl leading-relaxed font-serif text-[#F9F6F0] max-w-4xl mx-auto italic">
+                                <p className="text-2xl md:text-3xl leading-relaxed font-sans text-[#F9F6F0] max-w-4xl mx-auto italic">
                                     "{project.story.closing.insight}"
                                 </p>
 
